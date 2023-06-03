@@ -1,21 +1,24 @@
 <template>
   <form method="post" class="form">
+    <h2>Написать комментарий</h2>
     <label class="form__label">
       <span>Введите имя</span>
-      <input
+      <my-input
         v-model="formData.author"
         class="form__input"
-        type="text"
-        name="author"
+        inputType="text"
+        inputName="author"
+        required
       />
     </label>
     <label class="form__label">
       <span>Введите комментарий</span>
-      <textarea
+      <my-textarea
         v-model="formData.text"
         class="form__input"
-        name="text"
-      ></textarea>
+        textareaName="text"
+        required
+      ></my-textarea>
     </label>
     <label class="form__label">
       <input
@@ -24,6 +27,7 @@
         name="reaction"
         value="1"
         class="form__radio"
+        required
       />
       <span>Like</span>
     </label>
@@ -35,6 +39,7 @@
         name="reaction"
         value="0"
         class="form__radio"
+        checked
       />
       <span> Neutral </span>
     </label>
@@ -45,21 +50,22 @@
         name="reaction"
         value="-1"
         class="form__radio"
+        required
       />
       <span>Dislike</span>
     </label>
-    <button class="form__button" @click.prevent="createComment">
+    <my-button class="form__button" @click.prevent="createComment">
       Отправить
-    </button>
+    </my-button>
   </form>
 </template>
 
 <script>
 export default {
   props: {
-    commentsLenght:{
-        type: Number,
-        required: true,
+    commentsLenght: {
+      type: Number,
+      required: true,
     },
   },
   data() {
@@ -89,7 +95,7 @@ export default {
   methods: {
     createComment() {
       this.formData = {
-        id: this.commentsLenght+1,
+        id: this.commentsLenght + 1,
         author: this.formData.author,
         text: this.formData.text,
         reaction: this.formData.reaction,
@@ -105,7 +111,7 @@ export default {
       }; // сделать нормальное обнуление
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -118,18 +124,9 @@ export default {
   margin-top: 15px;
 }
 
-.form__input {
-  resize: none;
-  width: 100%;
-  border: 2px solid teal;
-  padding: 10px 15px;
-}
 
 .form__button {
   margin-top: 15px;
   align-self: flex-end;
-  padding: 15px;
-  background: none;
-  border: 2px solid teal;
 }
 </style>

@@ -1,34 +1,24 @@
 <template>
-    <ul class="list">
-        <li class="list__item" v-for="comment in comments">
-            <h3>
-                {{ comment.author }}
-            </h3>
-            <p>
-                {{ comment.text }}
-            </p>
-            <p>
-                {{ comment.createdAt }}
-            </p>
-        </li>
-    </ul>
+  <h2>Список комментариев {{ comments.length }}</h2>
+  <ul class="comments">
+    <CommentItem v-for="comment in comments" :comment="comment" class="comments__item" />
+  </ul>
 </template>
 
 <script>
-    export default {
-        props:{
-            comments:{
-                type: Array,
-                required: true,
-            }
-        }
-    }
+import CommentItem from './CommentItem.vue';
+
+export default {
+  props: {
+    comments: {
+      type: Array,
+      required: true,
+    },
+  },
+  components: { CommentItem },
+};
 </script>
 
-<style  scoped>
-.list__item {
-    padding: 15px;
-    border: 3px solid teal;
-    margin-top: 10px;
-}
+<style scoped>
+
 </style>
