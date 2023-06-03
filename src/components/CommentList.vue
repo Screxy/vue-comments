@@ -16,11 +16,16 @@
 
 <script>
     export default {
-
+        props:{
+            comments:{
+                type: Array,
+                required: true,
+            }
+        }
     }
 </script>
 
-<style lang="scss" scoped>
+<style  scoped>
 .list__item {
     padding: 15px;
     border: 3px solid teal;
