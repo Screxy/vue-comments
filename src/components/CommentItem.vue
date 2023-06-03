@@ -1,13 +1,14 @@
 <template>
-  <li class="item">
+  <li class="item" :style="{'margin-left':nestMargin+'px'}">
     <h3>
-      {{ comment.author }}
+      {{ comment.comment.author }}
+      {{ comment.comment.id }}
     </h3>
     <p>
-      {{ comment.text }}
+      {{ comment.comment.text }}
     </p>
     <p>
-      {{ comment.createdAt }}
+      {{ comment.comment.createdAt }}
     </p>
     <my-button>Ответить</my-button>
   </li>
@@ -21,6 +22,11 @@ export default {
       required: true,
     },
   },
+  computed:{
+    nestMargin(){
+      return 15*this.comment.nest
+    }
+  },
 };
 </script>
 
@@ -29,5 +35,8 @@ export default {
   padding: 15px;
   border: 3px solid teal;
   margin-top: 10px;
+}
+.child-item{
+    margin-left: 15px;
 }
 </style>

@@ -2,7 +2,7 @@
   <form method="post" class="form">
     <h2>Написать комментарий</h2>
     <label class="form__label">
-      <span>Введите имя</span>
+      <span class="visually-hidden">Введите имя</span>
       <my-input
         v-model="formData.author"
         class="form__input"
@@ -12,7 +12,7 @@
       />
     </label>
     <label class="form__label">
-      <span>Введите комментарий</span>
+      <span class="visually-hidden">Введите комментарий</span>
       <my-textarea
         v-model="formData.text"
         class="form__input"
@@ -21,6 +21,7 @@
       ></my-textarea>
     </label>
     <label class="form__label">
+      <span class="visually-hidden">Like</span>
       <input
         v-model="formData.reaction"
         type="radio"
@@ -29,9 +30,10 @@
         class="form__radio"
         required
       />
-      <span>Like</span>
+      <span>👍</span>
     </label>
     <label class="form__label">
+      <span class="visually-hidden"> Neutral </span>
       <input
         v-model="formData.reaction"
         type="radio"
@@ -41,9 +43,10 @@
         class="form__radio"
         checked
       />
-      <span> Neutral </span>
+      <span>😶</span>
     </label>
     <label class="form__label">
+      <span class="visually-hidden">Dislike</span>
       <input
         v-model="formData.reaction"
         type="radio"
@@ -52,7 +55,7 @@
         class="form__radio"
         required
       />
-      <span>Dislike</span>
+      <span>👎</span>
     </label>
     <my-button class="form__button" @click.prevent="createComment">
       Отправить
@@ -124,9 +127,17 @@ export default {
   margin-top: 15px;
 }
 
+.form__radio {
+  width: 0;
+  height: 0;
+}
+.form__radio:checked + span {
+    border-bottom: 2px solid teal;
+}
 
 .form__button {
   margin-top: 15px;
   align-self: flex-end;
 }
+
 </style>

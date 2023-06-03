@@ -1,12 +1,15 @@
 <template>
-  <header></header>
   <main>
-    <div class="wrapper">
-      <CommentForm @create="createComment" :commentsLenght="commentsLenght"/>
-      <CommentList :comments="comments" />
+    <div class="comments__wrapper">
+      <CommentForm
+        @create="createComment"
+        :commentsLenght="commentsLenght"
+        class="comment__form"
+      />
+      <h2 class="comments__title">Список комментариев {{ comments.length }}</h2>
+      <CommentList :comments="comments" class="comments__section" />
     </div>
   </main>
-  <footer></footer>
 </template>
 <script>
 import CommentList from './components/CommentList.vue';
@@ -64,6 +67,14 @@ export default {
           parentId: 4,
           createdAt: '2023-06-03T12:42:22.398Z',
         },
+        {
+          id: 7,
+          author: 'Olya',
+          text: 'вы правы',
+          reaction: 1,
+          parentId: 1,
+          createdAt: '2023-06-03T12:42:22.398Z',
+        },
       ],
     };
   },
@@ -73,21 +84,32 @@ export default {
     },
   },
   computed: {
-    commentsLenght(){
-        return this.comments.length
-    }
+    commentsLenght() {
+      return this.comments.length;
+    },
   },
   components: { CommentList, CommentForm },
 };
 </script>
-<style>
+<style >
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
-.wrapper {
+.comments__wrapper {
   padding: 20px;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }
 </style>
