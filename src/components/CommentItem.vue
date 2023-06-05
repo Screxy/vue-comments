@@ -1,5 +1,5 @@
 <template>
-  <li class="item" :style="{'margin-left':nestMargin+'px'}">
+  <li class="item" :style="{'margin-left':nestMargin+'px', backgroundColor: colorReaction}">
     <h3>
       {{ comment.comment.author }}
       {{ comment.comment.id }}
@@ -9,6 +9,12 @@
     </p>
     <p>
       {{ comment.comment.createdAt }}
+    </p>
+    <p>
+      {{ comment.comment.reaction }}
+    </p>
+    <p>
+      {{ comment.reactionSum }}
     </p>
     <my-button>Ответить</my-button>
   </li>
@@ -25,6 +31,15 @@ export default {
   computed:{
     nestMargin(){
       return 15*this.comment.nest
+    },
+    colorReaction(){
+      if (this.comment.reactionSum > 0){
+        return 'green'
+      }
+      else if (this.comment.reactionSum < 0){
+        return 'red'
+      }
+      return 'none'
     }
   },
 };

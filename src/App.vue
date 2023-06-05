@@ -99,6 +99,8 @@ export default {
 }
 .comments__wrapper {
   padding: 20px;
+  max-width: 700px;
+  margin: 0 auto; 
 }
 .visually-hidden {
   position: absolute;
