@@ -72,7 +72,7 @@ export default {
     },
     parentCommentId:{
       type: Number,
-      defualt: 0  
+      defualt: null  
     }
   },
   data() {
@@ -81,7 +81,7 @@ export default {
         author: '',
         text: '',
         reaction: 0,
-        parentId: 0,
+        parentId: null,
       },
     };
   },
@@ -114,7 +114,7 @@ export default {
         author: '',
         text: '',
         reaction: 0,
-        parentId: 0,
+        parentId: null,
       }; // сделать нормальное обнуление
     },
   },

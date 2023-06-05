@@ -31,7 +31,7 @@ export default {
     sortByNesting() {
       let sortedComments = [];
       this.commentList.forEach((comment) => {
-        if (comment.parentId === 0) {
+        if (comment.parentId === null) {
           sortedComments.push({
             comment: comment,
             nest: 0,

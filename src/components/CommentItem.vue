@@ -18,11 +18,13 @@
     </p>
     <p>
       {{ comment.comment.reaction }}
+      реакция
     </p>
     <p>
       {{ comment.reactionSum }}
+      сумма реакций
     </p>
-    <p>{{comment.childs }}</p>
+    <p>{{ comment.childs }} количество детей</p>
     <my-button @click="showDialog">Ответить</my-button>
   </li>
 </template>
@@ -41,7 +43,7 @@ export default {
     },
     colorReaction() {
       if (this.comment.reactionSum > 0) {
-        return "item_green";
+        return 'item_green';
       } else if (this.comment.reactionSum < 0) {
         return 'item_red';
       }
