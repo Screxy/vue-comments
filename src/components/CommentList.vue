@@ -1,12 +1,15 @@
 <template>
-  <ul class="comments">
+  <ul class="comments" v-if="comments.length > 0">
     <CommentItem
+      @showDialog="changeParentCommentId"
       v-for="comment in reactionSum"
       :comment="comment"
       key="comment.comment.id"
       class="comments__item"
+
     />
   </ul>
+  <h2 v-else>Комментариев не найдено</h2>
 </template>
 
 <script>
@@ -20,13 +23,18 @@ export default {
       required: true,
     },
   },
+  data(){
+    return{
+      commentList: this.comments
+    }
+  },
   computed: {
     sortByNesting() {
       let sortedComments = [];
-      this.comments.forEach((comment) => {
+      this.commentList.forEach((comment) => {
         if (comment.parentId === 0) {
-          sortedComments.push({ comment: comment, nest: 0 , reactionSum: 0});
-          this.haveChild(comment, 1, this.comments, sortedComments);
+          sortedComments.push({ comment: comment, nest: 0, reactionSum: 0 });
+          this.haveChild(comment, 1, this.commentList, sortedComments);
         }
       });
       return sortedComments;
@@ -34,16 +42,15 @@ export default {
     reactionSum() {
       let arr = this.sortByNesting;
       for (let i = 0; i < arr.length; i++) {
-        for (let j = i+1; j < arr.length; j++) {
+        for (let j = i + 1; j < arr.length; j++) {
           const parrent = arr[i];
           const child = arr[j];
           if (parrent.comment.id === child.comment.parentId) {
-
-            parrent.reactionSum += child.comment.reaction
+            parrent.reactionSum += child.comment.reaction;
           }
         }
       }
-      return arr
+      return arr;
     },
   },
   methods: {
@@ -55,6 +62,9 @@ export default {
         }
       });
     },
+    changeParentCommentId(parentCommentId){
+      this.$emit('reply', parentCommentId)
+    }
   },
 };
 </script>

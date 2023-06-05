@@ -4,7 +4,7 @@
     <label class="form__label">
       <span class="visually-hidden">Введите имя</span>
       <my-input
-        v-model="formData.author"
+        v-model.trim="formData.author"
         class="form__input"
         inputType="text"
         inputName="author"
@@ -70,13 +70,17 @@ export default {
       type: Number,
       required: true,
     },
+    parentCommentId:{
+      type: Number,
+      defualt: 0  
+    }
   },
   data() {
     return {
       formData: {
         author: '',
         text: '',
-        reaction: null,
+        reaction: 0,
         parentId: 0,
       },
     };
@@ -102,14 +106,14 @@ export default {
         author: this.formData.author,
         text: this.formData.text,
         reaction: this.formData.reaction,
-        parentId: 0,
+        parentId: this.parentCommentId,
         createdAt: this.convertDate,
       };
       this.$emit('create', this.formData);
       this.formData = {
         author: '',
         text: '',
-        reaction: null,
+        reaction: 0,
         parentId: 0,
       }; // сделать нормальное обнуление
     },
@@ -132,12 +136,11 @@ export default {
   height: 0;
 }
 .form__radio:checked + span {
-    border-bottom: 2px solid teal;
+  border-bottom: 2px solid teal;
 }
 
 .form__button {
   margin-top: 15px;
   align-self: flex-end;
 }
-
 </style>

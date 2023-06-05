@@ -1,5 +1,11 @@
 <template>
-  <li class="item" :style="{'margin-left':nestMargin+'px', backgroundColor: colorReaction}">
+  <li
+    class="item"
+    :style="{
+      'margin-left': nestMargin + 'px',
+      backgroundColor: colorReaction,
+    }"
+  >
     <h3>
       {{ comment.comment.author }}
       {{ comment.comment.id }}
@@ -16,7 +22,7 @@
     <p>
       {{ comment.reactionSum }}
     </p>
-    <my-button>Ответить</my-button>
+    <my-button @click="showDialog">Ответить</my-button>
   </li>
 </template>
 
@@ -28,20 +34,24 @@ export default {
       required: true,
     },
   },
-  computed:{
-    nestMargin(){
-      return 15*this.comment.nest
+  computed: {
+    nestMargin() {
+      return 15 * this.comment.nest;
     },
-    colorReaction(){
-      if (this.comment.reactionSum > 0){
-        return 'green'
+    colorReaction() {
+      if (this.comment.reactionSum > 0) {
+        return 'rgba(0, 255, 128, 0.322)';
+      } else if (this.comment.reactionSum < 0) {
+        return 'rgba(255, 0, 0, 0.322)';
       }
-      else if (this.comment.reactionSum < 0){
-        return 'red'
-      }
-      return 'none'
-    }
+      return 'none';
+    },
   },
+  methods:{
+    showDialog(){
+      this.$emit('showDialog', this.comment.comment.id);
+    }
+  }
 };
 </script>
 
@@ -51,7 +61,7 @@ export default {
   border: 3px solid teal;
   margin-top: 10px;
 }
-.child-item{
-    margin-left: 15px;
+.child-item {
+  margin-left: 15px;
 }
 </style>

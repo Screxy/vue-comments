@@ -1,13 +1,18 @@
 <template>
   <main>
     <div class="comments__wrapper">
-      <CommentForm
-        @create="createComment"
-        :commentsLenght="commentsLenght"
-        class="comment__form"
-      />
+      <h2>Страница комментариев</h2>
+      <my-button @click="showDialog" class="comments__button"> Написать комментарий </my-button>
+      <my-dialog v-model:show="dialogVisible">
+        <CommentForm
+          @create="createComment"
+          :commentsLenght="commentsLenght"
+          :parentCommentId="parentCommentId"
+          class="comment__form"
+        />
+      </my-dialog>
       <h2 class="comments__title">Список комментариев {{ comments.length }}</h2>
-      <CommentList :comments="comments" class="comments__section" />
+      <CommentList :comments="comments" class="comments__section" @reply="showReplyDialog"/>
     </div>
   </main>
 </template>
@@ -18,6 +23,7 @@ import CommentForm from './components/CommentForm.vue';
 export default {
   data() {
     return {
+      parentCommentId: 0,
       comments: [
         {
           id: 1,
@@ -76,12 +82,22 @@ export default {
           createdAt: '2023-06-03T12:42:22.398Z',
         },
       ],
+      dialogVisible: false,
     };
   },
   methods: {
     createComment(comment) {
       this.comments.push(comment);
+      this.dialogVisible = false;
+      this.parentCommentId = 0;
     },
+    showReplyDialog(parentCommentId) {
+      this.parentCommentId = parentCommentId;
+      this.dialogVisible = true;
+    },
+    showDialog(){
+      this.dialogVisible = true;
+    }
   },
   computed: {
     commentsLenght() {
@@ -91,7 +107,7 @@ export default {
   components: { CommentList, CommentForm },
 };
 </script>
-<style >
+<style>
 * {
   margin: 0;
   padding: 0;
@@ -100,7 +116,10 @@ export default {
 .comments__wrapper {
   padding: 20px;
   max-width: 700px;
-  margin: 0 auto; 
+  margin: 0 auto;
+}
+.comments__button{
+  margin-top: 15px;
 }
 .visually-hidden {
   position: absolute;
