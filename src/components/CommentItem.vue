@@ -22,6 +22,7 @@
     <p>
       {{ comment.reactionSum }}
     </p>
+    <p>{{comment.childs }}</p>
     <my-button @click="showDialog">Ответить</my-button>
   </li>
 </template>

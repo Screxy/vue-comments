@@ -1,5 +1,5 @@
 <template>
-  <form method="post" class="form">
+  <form method="post" class="form" @submit.prevent="createComment">
     <h2>Написать комментарий</h2>
     <label class="form__label">
       <span class="visually-hidden">Введите имя</span>
@@ -57,7 +57,7 @@
       />
       <span>👎</span>
     </label>
-    <my-button class="form__button" @click.prevent="createComment">
+    <my-button class="form__button" >
       Отправить
     </my-button>
   </form>
