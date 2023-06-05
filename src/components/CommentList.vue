@@ -6,7 +6,6 @@
       :comment="comment"
       key="comment.comment.id"
       class="comments__item"
-
     />
   </ul>
   <h2 v-else>Комментариев не найдено</h2>
@@ -23,10 +22,10 @@ export default {
       required: true,
     },
   },
-  data(){
-    return{
-      commentList: this.comments
-    }
+  data() {
+    return {
+      commentList: this.comments,
+    };
   },
   computed: {
     sortByNesting() {
@@ -46,6 +45,7 @@ export default {
           const parrent = arr[i];
           const child = arr[j];
           if (parrent.comment.id === child.comment.parentId) {
+            console.log(typeof(child.comment.parentId));
             parrent.reactionSum += child.comment.reaction;
           }
         }
@@ -57,14 +57,14 @@ export default {
     haveChild(parent, nest, arr1, arr2) {
       arr1.forEach((element) => {
         if (parent.id === element.parentId) {
-          arr2.push({ comment: element, nest: nest });
+          arr2.push({ comment: element, nest: nest, reactionSum: 0 });
           this.haveChild(element, nest + 1, arr1, arr2);
         }
       });
     },
-    changeParentCommentId(parentCommentId){
-      this.$emit('reply', parentCommentId)
-    }
+    changeParentCommentId(parentCommentId) {
+      this.$emit('reply', parentCommentId);
+    },
   },
 };
 </script>

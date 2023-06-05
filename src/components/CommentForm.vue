@@ -105,7 +105,7 @@ export default {
         id: this.commentsLenght + 1,
         author: this.formData.author,
         text: this.formData.text,
-        reaction: this.formData.reaction,
+        reaction: +this.formData.reaction,
         parentId: this.parentCommentId,
         createdAt: this.convertDate,
       };

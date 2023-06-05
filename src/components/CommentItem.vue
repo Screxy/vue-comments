@@ -3,8 +3,8 @@
     class="item"
     :style="{
       'margin-left': nestMargin + 'px',
-      backgroundColor: colorReaction,
     }"
+    :class="colorReaction"
   >
     <h3>
       {{ comment.comment.author }}
@@ -40,18 +40,18 @@ export default {
     },
     colorReaction() {
       if (this.comment.reactionSum > 0) {
-        return 'rgba(0, 255, 128, 0.322)';
+        return "item_green";
       } else if (this.comment.reactionSum < 0) {
-        return 'rgba(255, 0, 0, 0.322)';
+        return 'item_red';
       }
-      return 'none';
+      return;
     },
   },
-  methods:{
-    showDialog(){
+  methods: {
+    showDialog() {
       this.$emit('showDialog', this.comment.comment.id);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -61,7 +61,10 @@ export default {
   border: 3px solid teal;
   margin-top: 10px;
 }
-.child-item {
-  margin-left: 15px;
+.item_green {
+  background-color: rgba(0, 255, 128, 0.322);
+}
+.item_red {
+  background-color: rgba(255, 0, 0, 0.322);
 }
 </style>
