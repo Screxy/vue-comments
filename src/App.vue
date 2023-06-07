@@ -2,21 +2,19 @@
   <main>
     <div class="comments__wrapper">
       <h2>Страница комментариев</h2>
-      <my-button @click="fetchComments">Получить комментарии</my-button>
       <my-button @click="showDialog" class="comments__button">
         Написать комментарий
       </my-button>
       <my-dialog v-model:show="dialogVisible">
         <CommentForm
-          @create="createComment"
-          :commentsLenght="commentsLenght"
+          @create="postComments"
           :parentCommentId="parentCommentId"
           class="comment__form"
         />
       </my-dialog>
       <h2 class="comments__title">Список комментариев {{ comments.length }}</h2>
       <CommentList
-        :comments="reverse"
+        :comments="comments"
         class="comments__section"
         @reply="showReplyDialog"
       />
@@ -91,13 +89,17 @@ export default {
         // },
       ],
       dialogVisible: false,
+      evtSource: new EventSource('http://194.67.93.117:80/comments/stream'),
     };
   },
   methods: {
-    createComment(comment) {
-      this.comments.push(comment);
-      this.dialogVisible = false;
-      this.parentCommentId = null;
+    // createComment(comment) {
+    //   this.dialogVisible = false;
+    //   this.parentCommentId = null;
+    // },
+    addComment(comment) {
+      console.log(comment);
+      this.comments.push(JSON.parse(comment.data));
     },
     showReplyDialog(parentCommentId) {
       this.parentCommentId = parentCommentId;
@@ -109,23 +111,51 @@ export default {
     async fetchComments() {
       try {
         const response = await axios.get('http://194.67.93.117:80/comments');
-        console.log(response);
+        console.log(response.status);
         this.comments.length = 0;
-        this.comments.push(...response.data);
+        this.comments.push(...response.data.reverse());
       } catch (error) {
-        alert('ошибка');
+        alert(error);
       }
+    },
+    async postComments(comment) {
+      try {
+        let url = 'http://194.67.93.117:80/comments';
+        let commentbody = {
+          author: comment.author,
+          text: comment.text,
+          reaction: comment.reaction,
+          parentId: comment.parentId,
+        };
+
+        const response = await axios.post(url, commentbody, {
+          headers: {
+            'Content-Type': 'application/json',
+            Username: 'Screxy',
+          },
+        });
+
+        console.log(response.data);
+        this.dialogVisible = false;
+        this.parentCommentId = null;
+      } catch (error) {
+        alert(error);
+      }
+    },
+    ourEventSource() {
+      this.evtSource.onmessage = this.addComment
     },
   },
   computed: {
     commentsLenght() {
       return this.comments.length;
     },
-    reverse() {
-      return this.comments.reverse();
-    },
   },
   components: { CommentList, CommentForm },
+  mounted() {
+    this.fetchComments();
+    this.ourEventSource();
+  },
 };
 </script>
 <style>

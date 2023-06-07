@@ -66,10 +66,6 @@
 <script>
 export default {
   props: {
-    commentsLenght: {
-      type: Number,
-      required: true,
-    },
     parentCommentId:{
       type: Number,
       defualt: null  
@@ -85,29 +81,13 @@ export default {
       },
     };
   },
-  computed: {
-    date() {
-      return Date.now();
-    },
-    convertDate() {
-      return new Intl.DateTimeFormat('ru', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-      }).format(this.date);
-    },
-  },
   methods: {
     createComment() {
       this.formData = {
-        id: this.commentsLenght + 1,
         author: this.formData.author,
         text: this.formData.text,
         reaction: +this.formData.reaction,
         parentId: this.parentCommentId,
-        createdAt: this.convertDate,
       };
       this.$emit('create', this.formData);
       this.formData = {
