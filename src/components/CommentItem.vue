@@ -8,23 +8,14 @@
   >
     <h3>
       {{ comment.comment.author }}
-      {{ comment.comment.id }}
     </h3>
     <p>
       {{ comment.comment.text }}
     </p>
     <p>
-      {{ comment.comment.createdAt }}
+      {{ convertDate }}
     </p>
-    <p>
-      {{ comment.comment.reaction }}
-      реакция
-    </p>
-    <p>
-      {{ comment.reactionSum }}
-      сумма реакций
-    </p>
-    <p>{{ comment.childs }} количество детей</p>
+    <p v-if="comment.childs">📩{{ comment.childs }}</p>
     <my-button @click="showDialog">Ответить</my-button>
   </li>
 </template>
@@ -37,6 +28,11 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      date: this.comment.comment.createdAt,
+    };
+  },
   computed: {
     nestMargin() {
       return 15 * this.comment.nest;
@@ -48,6 +44,15 @@ export default {
         return 'item_red';
       }
       return;
+    },
+    convertDate() {
+      return new Intl.DateTimeFormat('ru', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+      }).format(Date.parse(this.date));
     },
   },
   methods: {

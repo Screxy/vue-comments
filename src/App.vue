@@ -111,11 +111,10 @@ export default {
     async fetchComments() {
       try {
         const response = await axios.get('http://194.67.93.117:80/comments');
-        console.log(response.status);
         this.comments.length = 0;
         this.comments.push(...response.data.reverse());
       } catch (error) {
-        alert(error);
+        console.log(error);
       }
     },
     async postComments(comment) {
@@ -152,8 +151,10 @@ export default {
     },
   },
   components: { CommentList, CommentForm },
-  mounted() {
+  beforeMount(){
     this.fetchComments();
+  },
+  mounted() {
     this.ourEventSource();
   },
 };
