@@ -6,17 +6,17 @@
     }"
     :class="colorReaction"
   >
-    <h3>
+    <h3 class="item__author">
       {{ comment.comment.author }}
     </h3>
-    <p>
+    <p class="item__text">
       {{ comment.comment.text }}
     </p>
-    <p>
+    <p class="item__date">
       {{ convertDate }}
     </p>
-    <p v-if="comment.childs">📩{{ comment.childs }}</p>
-    <my-button @click="showDialog">Ответить</my-button>
+    <span class="item__replies" v-if="comment.childs">📩{{ comment.childs }}</span>
+    <my-button class="item__button" @click="showDialog">Ответить</my-button>
   </li>
 </template>
 

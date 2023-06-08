@@ -22,15 +22,10 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      commentList: this.comments,
-    };
-  },
   computed: {
     sortByNesting() {
       let sortedComments = [];
-      this.commentList.forEach((comment) => {
+      this.comments.forEach((comment) => {
         if (comment.parentId === null || !comment.parentId) {
           sortedComments.push({
             comment: comment,
@@ -38,7 +33,7 @@ export default {
             reactionSum: 0,
             childs: 0,
           });
-          this.haveChild(comment, 1, this.commentList, sortedComments);
+          this.haveChild(comment, 1, this.comments, sortedComments);
         }
       });
       return sortedComments;
@@ -60,6 +55,7 @@ export default {
   },
   methods: {
     haveChild(parent, nest, arr1, arr2) {
+      if (arr1.length === arr2.length) return;
       arr1.forEach((element) => {
         if (parent.id === element.parentId) {
           arr2.push({

@@ -2,6 +2,7 @@
   <main>
     <div class="comments__wrapper">
       <h2>Страница комментариев</h2>
+      <my-switch :checked="checked" @check="streamComment" />
       <my-button @click="showDialog" class="comments__button">
         Написать комментарий
       </my-button>
@@ -90,6 +91,7 @@ export default {
       ],
       dialogVisible: false,
       evtSource: new EventSource('http://194.67.93.117:80/comments/stream'),
+      checked: true,
     };
   },
   methods: {
@@ -97,6 +99,13 @@ export default {
     //   this.dialogVisible = false;
     //   this.parentCommentId = null;
     // },
+    streamComment() {
+      if (this.checked === false) {
+        this.checked = true;
+        return;
+      }
+      this.checked = false;
+    },
     addComment(comment) {
       console.log(comment);
       this.comments.push(JSON.parse(comment.data));
@@ -142,16 +151,21 @@ export default {
       }
     },
     ourEventSource() {
-      this.evtSource.onmessage = this.addComment
+      this.evtSource.onmessage = this.addComment;
     },
   },
   computed: {
     commentsLenght() {
       return this.comments.length;
     },
+    parrentIdcheck() {
+      if (this.dialogVisible === false) {
+        this.parentCommentId = null;
+      }
+    },
   },
   components: { CommentList, CommentForm },
-  beforeMount(){
+  beforeMount() {
     this.fetchComments();
   },
   mounted() {
