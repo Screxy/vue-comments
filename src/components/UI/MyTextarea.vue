@@ -28,5 +28,6 @@ export default {
   width: 100%;
   border: 2px solid teal;
   padding: 10px 15px;
+  /* min-height: 150px; */
 }
 </style>

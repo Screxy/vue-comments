@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="comments__wrapper">
-      <h2>Страница комментариев</h2>
+      <h1>Страница комментариев</h1>
       <my-switch :checked="switchChecked" @check="streamComment" />
       <my-button @click="showDialog" class="comments__button">
         Написать комментарий
@@ -13,7 +13,7 @@
           class="comment__form"
         />
       </my-dialog>
-      <h2 class="comments__title">Список комментариев {{ comments.length }}</h2>
+      <h2 class="comments__title">Список комментариев ({{ comments.length }})</h2>
       <CommentList
         :comments="comments"
         class="comments__section"
@@ -146,12 +146,6 @@ export default {
         console.log(error);
       }
     },
-    ourEventSource() {
-      this.evtSource = new EventSource(
-        'http://194.67.93.117:80/comments/stream'
-      );
-      this.evtSource.onmessage = this.addComment;
-    },
     openConnection() {
       console.log('Opening connection');
       this.evtSource = new EventSource(
@@ -192,7 +186,7 @@ export default {
     this.fetchComments();
   },
   mounted() {
-    this.ourEventSource();
+    this.openConnection();
   },
 };
 </script>
@@ -201,6 +195,9 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+html{
+  font-size: 62.5%;
 }
 .comments__wrapper {
   padding: 20px;

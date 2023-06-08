@@ -3,7 +3,7 @@
     :type="inputType"
     :name="inputName"
     :value="modelValue"
-    @input="updateInput"
+    @change="updateInput"
     class="input"
   />
 </template>

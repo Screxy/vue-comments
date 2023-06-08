@@ -1,22 +1,24 @@
 <template>
   <form method="post" class="form" @submit.prevent="createComment">
-    <h2>Написать комментарий</h2>
     <label class="form__label">
-      <span class="visually-hidden">Введите имя</span>
+      <span class="form__text">Введите ваше имя</span>
       <my-input
         v-model.trim="formData.author"
         class="form__input"
         inputType="text"
         inputName="author"
+        placeholder="Ваше имя"
         required
       />
     </label>
     <label class="form__label">
-      <span class="visually-hidden">Введите комментарий</span>
+      <span class="visually-hidden">Введите текст комментарий</span>
       <my-textarea
         v-model="formData.text"
         class="form__input"
         textareaName="text"
+        placeholder="Текст комментария"
+        rows="7"
         required
       ></my-textarea>
     </label>

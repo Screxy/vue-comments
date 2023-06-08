@@ -6,17 +6,21 @@
     }"
     :class="colorReaction"
   >
-    <h3 class="item__author">
+    <p class="item__author">
       {{ comment.comment.author }}
-    </h3>
+    </p>
     <p class="item__text">
       {{ comment.comment.text }}
     </p>
-    <p class="item__date">
-      {{ convertDate }}
-    </p>
-    <span class="item__replies" v-if="comment.childs">📩{{ comment.childs }}</span>
-    <my-button class="item__button" @click="showDialog">Ответить</my-button>
+    <div class="item__bottom">
+      <my-button class="item__button" @click="showDialog">Ответить</my-button>
+      <span class="item__replies" v-if="comment.childs"
+        >📩{{ comment.childs }}</span
+      >
+      <time class="item__date">
+        {{ convertDate }}
+      </time>
+    </div>
   </li>
 </template>
 
@@ -67,15 +71,44 @@ export default {
 .item {
   padding: 15px;
   border: 3px solid teal;
+  margin: 0;
   margin-top: 10px;
+  list-style: none;
+  border-radius: 12px;
 }
-.item__text{
-  word-break: break-word;
-}
+
 .item_green {
   background-color: rgba(0, 255, 128, 0.322);
 }
 .item_red {
   background-color: rgba(255, 0, 0, 0.322);
+}
+.item__author {
+  font-size: 2rem;
+}
+.item__text {
+  font-size: 1.6em;
+  word-break: break-word;
+}
+.item__bottom {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+}
+.item__button {
+  font-size: 1.4rem;
+}
+.item__replies {
+  margin-left: auto;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.item__replies + .item__date {
+  margin-left: 15px;
+}
+.item__date {
+  margin-left: auto;
+  font-size: 1.4rem;
+  line-height: 1;
 }
 </style>
