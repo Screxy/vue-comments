@@ -69,6 +69,9 @@ export default {
   border: 3px solid teal;
   margin-top: 10px;
 }
+.item__text{
+  word-break: break-word;
+}
 .item_green {
   background-color: rgba(0, 255, 128, 0.322);
 }

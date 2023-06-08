@@ -1,20 +1,20 @@
 <template>
   <label class="switch">
-    <input type="checkbox" :checked="checked" @input="updateCheck"/>
-    <span class="switch round"></span>
+    <input type="checkbox" :checked="checked" @input="updateCheck" />
+    <span class="switch"></span>
   </label>
 </template>
 
 <script>
 export default {
-    name: 'my-switch',
-    props:{
-        checked: Boolean,
+  name: 'my-switch',
+  props: {
+    checked: Boolean,
+  },
+  methods: {
+    updateCheck() {
+      this.$emit('check');
     },
-    methods: {
-    updateCheck(){
-        this.$emit('check')
-    }
   },
 };
 </script>
@@ -61,5 +61,4 @@ input:focus + .switch {
 input:checked + .switch:before {
   transform: translateX(26px);
 }
-
 </style>

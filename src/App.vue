@@ -2,7 +2,7 @@
   <main>
     <div class="comments__wrapper">
       <h2>Страница комментариев</h2>
-      <my-switch :checked="checked" @check="streamComment" />
+      <my-switch :checked="switchChecked" @check="streamComment" />
       <my-button @click="showDialog" class="comments__button">
         Написать комментарий
       </my-button>
@@ -90,21 +90,17 @@ export default {
         // },
       ],
       dialogVisible: false,
-      evtSource: new EventSource('http://194.67.93.117:80/comments/stream'),
-      checked: true,
+      evtSource: null,
+      switchChecked: true,
     };
   },
   methods: {
-    // createComment(comment) {
-    //   this.dialogVisible = false;
-    //   this.parentCommentId = null;
-    // },
     streamComment() {
-      if (this.checked === false) {
-        this.checked = true;
+      if (this.switchChecked === false) {
+        this.switchChecked = true;
         return;
       }
-      this.checked = false;
+      this.switchChecked = false;
     },
     addComment(comment) {
       console.log(comment);
@@ -147,11 +143,35 @@ export default {
         this.dialogVisible = false;
         this.parentCommentId = null;
       } catch (error) {
-        alert(error);
+        console.log(error);
       }
     },
     ourEventSource() {
+      this.evtSource = new EventSource(
+        'http://194.67.93.117:80/comments/stream'
+      );
       this.evtSource.onmessage = this.addComment;
+    },
+    openConnection() {
+      console.log('Opening connection');
+      this.evtSource = new EventSource(
+        'http://194.67.93.117:80/comments/stream'
+      );
+      this.evtSource.onmessage = this.addComment;
+    },
+    closeConnection() {
+      console.log('Closing connection');
+      if (this.evtSource) {
+        this.evtSource.close();
+        this.evtSource = null;
+      }
+    },
+    serverSentEvent() {
+      if (!this.switchChecked) {
+        this.closeConnection();
+      } else {
+        this.openConnection();
+      }
     },
   },
   computed: {
@@ -163,6 +183,9 @@ export default {
         this.parentCommentId = null;
       }
     },
+  },
+  watch: {
+    switchChecked: 'serverSentEvent',
   },
   components: { CommentList, CommentForm },
   beforeMount() {
