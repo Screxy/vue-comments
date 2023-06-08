@@ -18,14 +18,18 @@ export default {
 .button {
   padding: 10px;
   color: color(secondDescColor);
-  background: color(primaryTitleColor);
+  background-color: color(primaryTitleColor);
   border: 1px solid color(primaryTitleColor);
   border-radius: 30px;
+  transition: all .3s ease;
   @include media(min, md) {
     padding: 15px;
   }
   &:focus {
     box-shadow: 0px 0px 7px 3px #757575;
+  }
+  &:active {
+    background-color: #00aaff;
   }
 }
 </style>

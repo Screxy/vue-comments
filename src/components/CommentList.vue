@@ -1,11 +1,11 @@
 <template>
-  <ul class="comments" v-if="comments.length > 0">
+  <ul class="section" v-if="comments.length > 0">
     <CommentItem
       @showDialog="changeParentCommentId"
       v-for="comment in reactionAndChildSum"
       :comment="comment"
       key="comment.comment.id"
-      class="comments__item"
+      class="section__item"
     />
   </ul>
   <h2 v-else>Комментариев не найдено</h2>
@@ -76,7 +76,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.comments__item{
+.section__item{
   margin-top: 15px
 }
 </style>

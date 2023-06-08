@@ -78,8 +78,12 @@ export default {
   list-style: none;
   border-radius: 12px;
   background-color: #e4e4e4;
+  transition: box-shadow .8s linear;
   @include media(min,md){
     padding: 15px;
+  }
+  &:hover{
+    box-shadow: 0px 0px 3px 0px #bebbbb;
   }
 }
 

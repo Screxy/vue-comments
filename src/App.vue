@@ -1,38 +1,40 @@
 <template>
   <main>
-    <div class="comments__wrapper">
-      <h1 class="comments__title">Страница комментариев</h1>
-      <div class="comments__switch">
-        <label class="comments__label">
-          <span class="comment__text"
-            >Новые комментарии в реальном времени</span
-          >
-          <my-switch
-            class="comment__input"
-            :checked="switchChecked"
-            @check="streamComment"
+    <section class="comments">
+      <div class="comments__wrapper">
+        <h1 class="comments__title">Страница комментариев</h1>
+        <div class="comments__switch">
+          <label class="comments__label">
+            <span class="comments__text"
+              >Новые комментарии в реальном времени</span
+            >
+            <my-switch
+              class="comments__input"
+              :checked="switchChecked"
+              @check="streamComment"
+            />
+          </label>
+        </div>
+        <my-button @click="showDialog" class="comments__button">
+          Написать комментарий
+        </my-button>
+        <my-dialog v-model:show="dialogVisible">
+          <CommentForm
+            @create="postComments"
+            :parentCommentId="parentCommentId"
+            class="comment__form"
           />
-        </label>
-      </div>
-      <my-button @click="showDialog" class="comments__button">
-        Написать комментарий
-      </my-button>
-      <my-dialog v-model:show="dialogVisible">
-        <CommentForm
-          @create="postComments"
-          :parentCommentId="parentCommentId"
-          class="comment__form"
+        </my-dialog>
+        <h2 class="comments__subtitle">
+          Список комментариев ({{ comments.length }})
+        </h2>
+        <CommentList
+          :comments="comments"
+          class="comments__section"
+          @reply="showReplyDialog"
         />
-      </my-dialog>
-      <h2 class="comments__subtitle">
-        Список комментариев ({{ comments.length }})
-      </h2>
-      <CommentList
-        :comments="comments"
-        class="comments__section"
-        @reply="showReplyDialog"
-      />
-    </div>
+      </div>
+    </section>
   </main>
 </template>
 <script>
@@ -527,7 +529,7 @@ body {
   @include wrapper(block);
 }
 .comments__title {
-  @include title();  
+  @include title();
   margin-top: 40px;
 }
 .comments__label {
@@ -537,16 +539,16 @@ body {
   justify-content: center;
   gap: 20px;
 }
-.comment__text {
+.comments__text {
   @include subTitle();
 }
-.comments__subtitle{
+.comments__subtitle {
   @include subTitle();
   margin-top: 15px;
 }
 .comments__button {
   margin-top: 15px;
-  @include secondTitle() ;
+  @include secondTitle();
 }
 .visually-hidden {
   position: absolute;
@@ -560,5 +562,4 @@ body {
   clip: rect(0 0 0 0);
   overflow: hidden;
 }
-
 </style>
