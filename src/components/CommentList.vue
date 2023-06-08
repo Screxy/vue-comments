@@ -75,4 +75,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.comments__item{
+  margin-top: 15px
+}
+</style>

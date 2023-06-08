@@ -13,7 +13,7 @@
       {{ comment.comment.text }}
     </p>
     <div class="item__bottom">
-      <my-button class="item__button" @click="showDialog">Ответить</my-button>
+      <my-button class="item__button" @click="showDialog">   Ответить</my-button>
       <span class="item__replies" v-if="comment.childs"
         >📩{{ comment.childs }}</span
       >
@@ -39,7 +39,8 @@ export default {
   },
   computed: {
     nestMargin() {
-      return 15 * this.comment.nest;
+      
+      return Math.min(15 * this.comment.nest,15*5);
     },
     colorReaction() {
       if (this.comment.reactionSum > 0) {
@@ -67,14 +68,19 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@use '@/assets/scss/mixin' as *;
+@use '@/assets/scss/function' as *;
+@use '@/assets/scss/variables' as *;
 .item {
-  padding: 15px;
-  border: 3px solid teal;
+  padding: 10px;
   margin: 0;
-  margin-top: 10px;
   list-style: none;
   border-radius: 12px;
+  background-color: #e4e4e4;
+  @include media(min,md){
+    padding: 15px;
+  }
 }
 
 .item_green {
@@ -85,8 +91,10 @@ export default {
 }
 .item__author {
   font-size: 2rem;
+  font-weight: 600;
 }
 .item__text {
+  margin-top: 1rem;
   font-size: 1.6em;
   word-break: break-word;
 }
@@ -96,7 +104,11 @@ export default {
   align-items: center;
 }
 .item__button {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  @include media(min,md){
+    font-size: 1.2rem;
+  }
 }
 .item__replies {
   margin-left: auto;
@@ -104,7 +116,9 @@ export default {
   line-height: 1;
 }
 .item__replies + .item__date {
-  margin-left: 15px;
+  @include media(min, xs) {
+    margin-left: 15px;
+  }
 }
 .item__date {
   margin-left: auto;

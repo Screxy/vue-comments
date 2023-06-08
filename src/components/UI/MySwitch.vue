@@ -1,6 +1,11 @@
 <template>
   <label class="switch">
-    <input type="checkbox" :checked="checked" @input="updateCheck" />
+    <input
+      type="checkbox"
+      :checked="checked"
+      @input="updateCheck"
+      class="visually-hidden"
+    />
     <span class="switch"></span>
   </label>
 </template>
@@ -19,16 +24,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@use '@/assets/scss/function' as *;
+@use '@/assets/scss/variables' as *;
+@use '@/assets/scss/mixin' as *;
 .switch {
   position: relative;
   display: inline-block;
   width: 60px;
   height: 34px;
-}
-
-.switch input {
-  display: none;
 }
 
 .switch {
@@ -51,11 +55,11 @@ export default {
 }
 
 input:checked + .switch {
-  background-color: #2196f3;
+  background-color: color(primaryTitleColor);
 }
 
 input:focus + .switch {
-  box-shadow: 0 0 1px #2196f3;
+  box-shadow: 0 0 1px 2px color(primaryTitleColor);
 }
 
 input:checked + .switch:before {

@@ -32,7 +32,7 @@
         class="form__radio"
         required
       />
-      <span>👍</span>
+      <span class="form__text">👍</span>
     </label>
     <label class="form__label">
       <span class="visually-hidden"> Neutral </span>
@@ -45,7 +45,7 @@
         class="form__radio"
         checked
       />
-      <span>😶</span>
+      <span class="form__text">😶</span>
     </label>
     <label class="form__label">
       <span class="visually-hidden">Dislike</span>
@@ -57,7 +57,7 @@
         class="form__radio"
         required
       />
-      <span>👎</span>
+      <span class="form__text">👎</span>
     </label>
     <my-button class="form__button" >
       Отправить
@@ -103,7 +103,10 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@use '@/assets/scss/function' as *;
+@use '@/assets/scss/variables' as *;
+@use '@/assets/scss/mixin' as *;
 .form {
   display: flex;
   flex-direction: column;
@@ -112,15 +115,28 @@ export default {
 .form__label {
   margin-top: 15px;
 }
-
+.form__text{
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.form__text + .form__input{
+  margin-top: 7px;
+}
 .form__radio {
   width: 0;
   height: 0;
 }
-.form__radio:checked + span {
-  border-bottom: 2px solid teal;
+.form__radio + .form__text{
+  font-size: 2rem;
 }
-
+.form__radio:checked + span {
+  border-bottom: 2px solid color(primaryTitleColor);
+  opacity: 1;
+  transition: all .3s linear;
+}
+.form__radio + span{
+  opacity: .5;
+}
 .form__button {
   margin-top: 15px;
   align-self: flex-end;
