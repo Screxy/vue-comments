@@ -520,6 +520,9 @@ body {
   font-style: normal;
   font-display: swap;
 }
+.comments{
+  padding-bottom: 20px;
+}
 .comments__wrapper {
   @include wrapper(block);
 }
