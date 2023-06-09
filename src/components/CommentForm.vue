@@ -143,8 +143,6 @@ export default {
 .form__text + .form__input {
   margin-top: 7px;
 }
-.form__radio {
-}
 .form__radio + .form__text {
   font-size: 2rem;
 }
