@@ -118,7 +118,7 @@ export default {
         text: '',
         reaction: 0,
         parentId: null,
-      }; // сделать нормальное обнуление
+      };
     },
   },
 };

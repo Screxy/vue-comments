@@ -116,7 +116,6 @@ export default {
       this.switchChecked = false;
     },
     addComment(comment) {
-      console.log(comment);
       this.comments.push(JSON.parse(comment.data));
     },
     showReplyDialog(parentCommentId) {
@@ -160,14 +159,12 @@ export default {
       }
     },
     openConnection() {
-      console.log('Opening connection');
       this.evtSource = new EventSource(
         'http://194.67.93.117:80/comments/stream'
       );
       this.evtSource.onmessage = this.addComment;
     },
     closeConnection() {
-      console.log('Closing connection');
       if (this.evtSource) {
         this.evtSource.close();
         this.evtSource = null;

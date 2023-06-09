@@ -16,22 +16,9 @@ export default {
     },
   },
   methods: {
-    asdasdas() {
-      console.log('gwgw');
-    },
     hideDialog() {
       this.$emit('update:show', false);
     },
-  //   hideDialogEsc(event) {
-  //     console.log(event.key, 'sdfsdfsdf');
-  //     if(event.key === 'Escape') this.$emit('update:show', false);
-  //   },
-  // },
-  // mounted() {
-  //   window.addEventListener('keyup', this.hideDialogEsc);
-  // },
-  // destroyed() {
-  //   window.removeEventListener('keyup', this.hideDialogEsc);
   },
 };
 </script>
