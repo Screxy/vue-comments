@@ -1,5 +1,6 @@
 <template>
   <label class="switch">
+    <span class="visually-hidden">Переключатель</span>
     <input
       type="checkbox"
       :checked="checked"

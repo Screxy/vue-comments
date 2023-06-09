@@ -8,7 +8,7 @@
       class="section__item"
     />
   </ul>
-  <h2 v-else>Комментариев не найдено</h2>
+  <p class="section__text" v-else>Комментариев не найдено</p>
 </template>
 
 <script>
@@ -76,7 +76,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.section__item{
-  margin-top: 15px
+@use '@/assets/scss/mixin' as *;
+.section__item {
+  margin-top: 15px;
+}
+.section__text {
+  @include subTitle();
 }
 </style>

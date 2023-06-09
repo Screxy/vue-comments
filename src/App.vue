@@ -4,16 +4,14 @@
       <div class="comments__wrapper">
         <h1 class="comments__title">Страница комментариев</h1>
         <div class="comments__switch">
-          <label class="comments__label">
-            <span class="comments__text"
-              >Новые комментарии в реальном времени</span
-            >
-            <my-switch
-              class="comments__input"
-              :checked="switchChecked"
-              @check="streamComment"
-            />
-          </label>
+          <span class="comments__text"
+            >Новые комментарии в реальном времени</span
+          >
+          <my-switch
+            class="comments__input"
+            :checked="switchChecked"
+            @check="streamComment"
+          />
         </div>
         <my-button @click="showDialog" class="comments__button">
           Написать комментарий
@@ -532,7 +530,7 @@ body {
   @include title();
   margin-top: 40px;
 }
-.comments__label {
+.comments__switch {
   margin-top: 15px;
   display: flex;
   align-items: center;
