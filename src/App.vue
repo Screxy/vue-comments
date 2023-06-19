@@ -177,18 +177,19 @@ export default {
         this.openConnection();
       }
     },
-  },
-  computed: {
-    commentsLenght() {
-      return this.comments.length;
-    },
     parrentIdcheck() {
       if (this.dialogVisible === false) {
         this.parentCommentId = null;
       }
     },
   },
+  computed: {
+    commentsLenght() {
+      return this.comments.length;
+    },
+  },
   watch: {
+    dialogVisible: 'parrentIdcheck',
     switchChecked: 'serverSentEvent',
   },
   components: { CommentList, CommentForm },
@@ -520,7 +521,7 @@ body {
   font-style: normal;
   font-display: swap;
 }
-.comments{
+.comments {
   padding-bottom: 20px;
 }
 .comments__wrapper {

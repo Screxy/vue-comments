@@ -4,7 +4,7 @@
       @showDialog="changeParentCommentId"
       v-for="comment in reactionAndChildSum"
       :comment="comment"
-      key="comment.comment.id"
+      key="comment.id"
       class="section__item"
     />
   </ul>
@@ -27,12 +27,14 @@ export default {
       let sortedComments = [];
       this.comments.forEach((comment) => {
         if (comment.parentId === null || !comment.parentId) {
-          sortedComments.push({
-            comment: comment,
-            nest: 0,
-            reactionSum: 0,
-            childs: 0,
-          });
+          let commentChanged = {...comment};
+          commentChanged.nest = 0;
+          commentChanged.reactionSum = 0;
+          commentChanged.childs = 0;
+          console.log(commentChanged);
+          sortedComments.push(
+            commentChanged
+          );
           this.haveChild(comment, 1, this.comments, sortedComments);
         }
       });
@@ -44,9 +46,9 @@ export default {
         for (let j = i + 1; j < arr.length; j++) {
           const parrent = arr[i];
           const child = arr[j];
-          if (parrent.comment.id === child.comment.parentId) {
+          if (parrent.id === child.parentId) {
             parrent.childs++;
-            parrent.reactionSum += child.comment.reaction;
+            parrent.reactionSum += child.reaction;
           }
         }
       }
@@ -56,14 +58,14 @@ export default {
   methods: {
     haveChild(parent, nest, arr1, arr2) {
       if (arr1.length === arr2.length) return;
-      arr1.forEach((element) => {
+      arr1.forEach((originalElement) => {
+        let element = {...originalElement}
         if (parent.id === element.parentId) {
-          arr2.push({
-            comment: element,
-            nest: nest,
-            reactionSum: 0,
-            childs: 0,
-          });
+          console.log(element);
+          element.nest = nest;
+          element.reactionSum = 0;
+          element.childs = 0;
+          arr2.push(element);
           this.haveChild(element, nest + 1, arr1, arr2);
         }
       });

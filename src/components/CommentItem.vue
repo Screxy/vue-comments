@@ -7,10 +7,10 @@
     :class="colorReaction"
   >
     <p class="item__author">
-      {{ comment.comment.author }}
+      {{ comment.author }}
     </p>
     <p class="item__text">
-      {{ comment.comment.text }}
+      {{ comment.text }}
     </p>
     <div class="item__bottom">
       <my-button class="item__button" @click="showDialog">   Ответить</my-button>
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      date: this.comment.comment.createdAt,
+      date: this.comment.createdAt,
     };
   },
   computed: {
@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     showDialog() {
-      this.$emit('showDialog', this.comment.comment.id);
+      this.$emit('showDialog', this.comment.id);
     },
   },
 };
