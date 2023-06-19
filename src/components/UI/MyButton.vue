@@ -21,7 +21,7 @@ export default {
   background-color: color(primaryTitleColor);
   border: 1px solid color(primaryTitleColor);
   border-radius: 30px;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   @include media(min, md) {
     padding: 15px;
   }
@@ -30,6 +30,10 @@ export default {
   }
   &:active {
     background-color: #00aaff;
+  }
+  &[disabled] {
+    transform: scale(.9);
+    opacity: 0.5;
   }
 }
 </style>

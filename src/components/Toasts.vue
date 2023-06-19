@@ -1,5 +1,5 @@
 <template>
-  <div class="toasts" v-if="show" :class="{toasts_error: !toastsOk}">
+  <div class="toasts" v-if="show" :class="{toasts_error: !contentStatus}">
     <button class="toasts__close" @click="hideToasts">x</button>
     <p class="toasts__header">{{ content.status }}</p>
     <p class="toasts__text">{{ content.message }}</p>
@@ -20,6 +20,7 @@ export default {
         if (this.content.status === 'Error'){
             return false
         }
+        return true
     }
   },
   methods: {
