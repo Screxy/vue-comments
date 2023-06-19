@@ -20,6 +20,7 @@
           <CommentForm
             @create="postComments"
             :parentCommentId="parentCommentId"
+            :visible="dialogVisible"
             class="comment__form"
           />
         </my-dialog>
@@ -33,11 +34,13 @@
         />
       </div>
     </section>
+    <Toasts v-model:show="toastsVisible" :content="toastsContent" />
   </main>
 </template>
 <script>
 import CommentList from './components/CommentList.vue';
 import CommentForm from './components/CommentForm.vue';
+import Toasts from './components/Toasts.vue';
 import axios from 'axios';
 
 export default {
@@ -102,6 +105,8 @@ export default {
         //   createdAt: '2023-06-03T12:42:22.398Z',
         // },
       ],
+      toastsContent: { status: 'OK', message: 'osdogsdg' },
+      toastsVisible: false,
       dialogVisible: false,
       evtSource: null,
       switchChecked: true,
@@ -152,10 +157,14 @@ export default {
         });
 
         console.log(response.data);
+        this.toastsContent = response.data;
+        this.toastsVisible = true;
         this.dialogVisible = false;
         this.parentCommentId = null;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
+        this.toastsContent = {status: 'Error', message: error.message};
+        this.toastsVisible = true;
       }
     },
     openConnection() {
@@ -192,7 +201,7 @@ export default {
     dialogVisible: 'parrentIdcheck',
     switchChecked: 'serverSentEvent',
   },
-  components: { CommentList, CommentForm },
+  components: { CommentList, CommentForm, Toasts },
   beforeMount() {
     this.fetchComments();
   },

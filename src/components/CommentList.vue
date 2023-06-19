@@ -8,7 +8,7 @@
       class="section__item"
     />
   </ul>
-  <p class="section__text" v-else>Комментариев не найдено</p>
+  <p class="section-text" v-else>Комментариев не найдено</p>
 </template>
 
 <script>
@@ -31,7 +31,6 @@ export default {
           commentChanged.nest = 0;
           commentChanged.reactionSum = 0;
           commentChanged.childs = 0;
-          console.log(commentChanged);
           sortedComments.push(
             commentChanged
           );
@@ -61,7 +60,6 @@ export default {
       arr1.forEach((originalElement) => {
         let element = {...originalElement}
         if (parent.id === element.parentId) {
-          console.log(element);
           element.nest = nest;
           element.reactionSum = 0;
           element.childs = 0;
@@ -82,7 +80,7 @@ export default {
 .section__item {
   margin-top: 15px;
 }
-.section__text {
+.section-text {
   @include subTitle();
 }
 </style>
