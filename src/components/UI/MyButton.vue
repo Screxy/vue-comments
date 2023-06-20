@@ -32,7 +32,7 @@ export default {
     background-color: #00aaff;
   }
   &[disabled] {
-    transform: scale(.9);
+    transform: scale(0.9);
     opacity: 0.5;
   }
 }

@@ -163,7 +163,7 @@ export default {
         this.parentCommentId = null;
       } catch (error) {
         console.log(error.message);
-        this.toastsContent = {status: 'Error', message: error.message};
+        this.toastsContent = { status: 'Error', message: error.message };
         this.toastsVisible = true;
       }
     },
@@ -214,7 +214,6 @@ export default {
 @use '@/assets/scss/mixin' as *;
 @use '@/assets/scss/function' as *;
 @use '@/assets/scss/variables' as *;
-
 html,
 body,
 body div,

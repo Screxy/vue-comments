@@ -27,13 +27,11 @@ export default {
       let sortedComments = [];
       this.comments.forEach((comment) => {
         if (comment.parentId === null || !comment.parentId) {
-          let commentChanged = {...comment};
+          let commentChanged = { ...comment };
           commentChanged.nest = 0;
           commentChanged.reactionSum = 0;
           commentChanged.childs = 0;
-          sortedComments.push(
-            commentChanged
-          );
+          sortedComments.push(commentChanged);
           this.haveChild(comment, 1, this.comments, sortedComments);
         }
       });
@@ -58,7 +56,7 @@ export default {
     haveChild(parent, nest, arr1, arr2) {
       if (arr1.length === arr2.length) return;
       arr1.forEach((originalElement) => {
-        let element = {...originalElement}
+        let element = { ...originalElement };
         if (parent.id === element.parentId) {
           element.nest = nest;
           element.reactionSum = 0;

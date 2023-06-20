@@ -1,5 +1,5 @@
 <template>
-  <div class="toasts" v-if="show" :class="{toasts_error: !contentStatus}">
+  <div class="toasts" v-if="show" :class="{ toasts_error: !contentStatus }">
     <button class="toasts__close" @click="hideToasts">x</button>
     <p class="toasts__header">{{ content.status }}</p>
     <p class="toasts__text">{{ content.message }}</p>
@@ -15,27 +15,27 @@ export default {
       default: false,
     },
   },
-  computed:{
-    contentStatus(){
-        if (this.content.status === 'Error'){
-            return false
-        }
-        return true
-    }
+  computed: {
+    contentStatus() {
+      if (this.content.status === 'Error') {
+        return false;
+      }
+      return true;
+    },
   },
   methods: {
-    deferredClose(){
-        setTimeout(()=>{
-            this.hideToasts()
-        }, 3000)
+    deferredClose() {
+      setTimeout(() => {
+        this.hideToasts();
+      }, 3000);
     },
     hideToasts() {
       this.$emit('update:show', false);
     },
   },
-  watch:{
-    show: 'deferredClose'
-  }
+  watch: {
+    show: 'deferredClose',
+  },
 };
 </script>
 
@@ -85,7 +85,7 @@ export default {
   border: none;
   border-radius: 50px;
 }
-.toasts_error{
-    background-color: red;
+.toasts_error {
+  background-color: red;
 }
 </style>
