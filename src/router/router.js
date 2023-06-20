@@ -1,6 +1,7 @@
 import Main from '@/pages/Main.vue'
 import CommentsPage from '@/pages/CommentsPage.vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import About from '@/pages/About.vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
@@ -11,11 +12,15 @@ const routes = [
     path: '/Comments',
     component: CommentsPage,
   },
+  {
+    path: '/About',
+    component: About,
+  }
 ];
 
 const router = createRouter({
     routes,
-    history: createWebHashHistory()
+    history: createWebHistory()
 })
 
 export default router

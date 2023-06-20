@@ -201,7 +201,7 @@ export default {
     dialogVisible: 'parrentIdcheck',
     switchChecked: 'serverSentEvent',
   },
-  components: { CommentList, CommentForm, Toasts },
+  components: { CommentList, CommentForm, Toasts},
   beforeMount() {
     this.fetchComments();
   },
@@ -243,5 +243,4 @@ export default {
   margin-top: 15px;
   @include secondTitle();
 }
-
 </style>
