@@ -3,10 +3,9 @@
     <label class="form__label">
       <span class="form__span" v-if="!authorLength"><p class="form__text" >Введите ваше имя</p></span>
       <span class="form__span" v-else><p class="form__text" >Имя слишком длинное</p></span>
-      <my-textarea
+      <my-input
         v-model="formData.author"
         class="form__input"
-        inputType="text"
         inputName="author"
         placeholder="Ваше имя"
         required
