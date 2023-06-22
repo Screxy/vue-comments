@@ -1,10 +1,6 @@
 <template>
-  <li
-    class="item"
-
-    style="--nested: true"
-  >
-    <div class="item__comment">
+  <li class="item" style="--nested: true">
+    <div class="item__comment" :class="colorReaction">
       <p class="item__author">
         {{ comment.author }}
       </p>
@@ -67,15 +63,15 @@
         </time>
       </div>
     </div>
-    <ul v-if="childs" style="--nested: true" class="childs">
+    <ul v-if="childs" class="item__childs">
       <RecursiveComment
-        @showDialog="showDialog"
+        @showDialog="showChildDialog"
         v-for="child in childs"
         :comment="child"
         :childs="child.childs"
         key="child.id"
         :style="{
-          'margin-left': 15 + 'px',
+          'margin-left': 10 + 'px',
         }"
       />
     </ul>
@@ -99,6 +95,19 @@ export default {
     };
   },
   computed: {
+    colorReaction() {
+      if (!this.childs) return;
+      let sum = 0;
+      this.childs.forEach((comment) => {
+        sum += comment.reaction;
+      });
+      if (sum > 0) {
+        return 'item_green';
+      } else if (sum < 0) {
+        return 'item_red';
+      }
+      return;
+    },
     convertDate() {
       return new Intl.DateTimeFormat('ru', {
         year: 'numeric',
@@ -110,6 +119,9 @@ export default {
     },
   },
   methods: {
+    showChildDialog(id) {
+      this.$emit('showDialog', id);
+    },
     showDialog() {
       this.$emit('showDialog', this.comment.id);
     },
@@ -121,7 +133,9 @@ export default {
 @use '@/assets/scss/mixin' as *;
 @use '@/assets/scss/function' as *;
 @use '@/assets/scss/variables' as *;
-
+.item__childs {
+  border-left: #e4e4e4 0.5rem solid;
+}
 .item__comment {
   padding: 1rem;
   margin-top: 1rem;
@@ -136,7 +150,6 @@ export default {
     box-shadow: 0px 0px 3px 0px #bebbbb;
   }
 }
-
 .item_green {
   background-color: rgba(0, 255, 128, 0.322);
 }
