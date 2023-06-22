@@ -68,7 +68,7 @@ export default {
 <style scoped lang="scss">
 @use '@/assets/scss/mixin' as *;
 .section {
-  padding: 1rem;
+  margin-top: 1.5rem;
 }
 .section-text {
   @include subTitle();

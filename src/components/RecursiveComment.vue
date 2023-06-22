@@ -8,7 +8,7 @@
         {{ comment.text }}
       </p>
       <div class="item__bottom">
-        <my-button class="item__button" @click="showDialog">
+        <my-button class="item__button" @click="showDialog" >
           Ответить</my-button
         >
         <span class="item__replies" v-if="childs"
@@ -61,9 +61,10 @@
         <time class="item__date">
           {{ convertDate }}
         </time>
+        <!-- <my-arrow-switch :checked='repliesShow' v-if="childs" @check="updateCheck"/>  -->
       </div>
-    </div>
-    <ul v-if="childs" class="item__childs">
+    </div>  
+    <ul v-if="childs && repliesShow" class="item__childs">
       <RecursiveComment
         @showDialog="showChildDialog"
         v-for="child in childs"
@@ -91,6 +92,7 @@ export default {
   },
   data() {
     return {
+      repliesShow: true,
       date: this.comment.createdAt,
     };
   },
@@ -119,6 +121,9 @@ export default {
     },
   },
   methods: {
+    updateCheck(){
+      this.repliesShow = !this.repliesShow
+    },
     showChildDialog(id) {
       this.$emit('showDialog', id);
     },

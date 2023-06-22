@@ -113,7 +113,7 @@ export default {
         //   createdAt: '2023-06-03T12:42:22.398Z',
         // },
       ],
-      toastsContent: { status: 'OK', message: 'osdogsdg' },
+      toastsContent: { status: '', message: '' },
       toastsVisible: false,
       dialogVisible: false,
       evtSource: null,
