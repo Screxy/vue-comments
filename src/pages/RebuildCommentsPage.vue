@@ -2,15 +2,15 @@
   <main>
     <section class="comments">
       <div class="comments__wrapper">
-        <h1 class="comments__title">Страница комментариев</h1>
+        <h1 class="comments__title">Рекурсивные комментарии</h1>
         <div class="comments__switch">
           <span class="comments__text"
-            >Новые комментарии в реальном времени</span
+          >Новые комментарии в реальном времени</span
           >
           <my-switch
-            class="comments__input"
-            :checked="switchChecked"
-            @check="streamComment"
+          class="comments__input"
+          :checked="switchChecked"
+          @check="streamComment"
           />
         </div>
         <my-button @click="showDialog" class="comments__button">
@@ -18,19 +18,19 @@
         </my-button>
         <my-dialog v-model:show="dialogVisible">
           <CommentForm
-            @create="postComments"
-            :parentCommentId="parentCommentId"
-            :visible="dialogVisible"
-            class="comment__form"
+          @create="postComments"
+          :parentCommentId="parentCommentId"
+          :visible="dialogVisible"
+          class="comment__form"
           />
         </my-dialog>
         <h2 class="comments__subtitle">
           Список комментариев ({{ comments.length }})
         </h2>
-        <CommentList
-          :comments="comments"
-          class="comments__section"
-          @reply="showReplyDialog"
+        <RecursiveComments
+        :comments="comments"
+        class="comments__section"
+        @reply="showReplyDialog"
         />
       </div>
     </section>
@@ -38,7 +38,7 @@
   </main>
 </template>
 <script>
-import CommentList from '@/components/CommentList.vue';
+import RecursiveComments from '../components/RecursiveComments.vue';
 import CommentForm from '@/components/CommentForm.vue';
 import Toasts from '@/components/Toasts.vue';
 import axios from 'axios';
@@ -48,62 +48,62 @@ export default {
     return {
       parentCommentId: null,
       comments: [
-        // {
-        //   id: 1,
-        //   author: 'Screxy',
-        //   text: 'Пост пушка! Рад, что нашел тебя!',
-        //   reaction: 1,
-        //   parentId: null,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-        // {
-        //   id: 2,
-        //   author: 'Nikolya',
-        //   text: 'Не согласен',
-        //   reaction: -1,
-        //   parentId: 1,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-        // {
-        //   id: 3,
-        //   author: 'Petya',
-        //   text: 'Пост объективно не очень',
-        //   reaction: -1,
-        //   parentId: 1,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-        // {
-        //   id: 4,
-        //   author: 'Slavaver',
-        //   text: 'Пост средний, надо переделать',
-        //   reaction: 0,
-        //   parentId: null,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-        // {
-        //   id: 5,
-        //   author: 'Misha',
-        //   text: 'согласен',
-        //   reaction: 1,
-        //   parentId: 4,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-        // {
-        //   id: 6,
-        //   author: 'Olya',
-        //   text: 'вы правы',
-        //   reaction: 1,
-        //   parentId: 4,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-        // {
-        //   id: 7,
-        //   author: 'Olya',
-        //   text: 'вы правы',
-        //   reaction: 1,
-        //   parentId: 1,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
+        {
+          id: 1,
+          author: 'Screxy',
+          text: 'Пост пушка! Рад, что нашел тебя!',
+          reaction: 1,
+          parentId: null,
+          createdAt: '2023-06-03T12:42:22.398Z',
+        },
+        {
+          id: 2,
+          author: 'Nikolya',
+          text: 'Не согласен',
+          reaction: -1,
+          parentId: 1,
+          createdAt: '2023-06-03T12:42:22.398Z',
+        },
+        {
+          id: 3,
+          author: 'Petya',
+          text: 'Пост объективно не очень',
+          reaction: -1,
+          parentId: 1,
+          createdAt: '2023-06-03T12:42:22.398Z',
+        },
+        {
+          id: 4,
+          author: 'Slavaver',
+          text: 'Пост средний, надо переделать',
+          reaction: 0,
+          parentId: null,
+          createdAt: '2023-06-03T12:42:22.398Z',
+        },
+        {
+          id: 5,
+          author: 'Misha',
+          text: 'согласен',
+          reaction: 1,
+          parentId: 4,
+          createdAt: '2023-06-03T12:42:22.398Z',
+        },
+        {
+          id: 6,
+          author: 'Olya',
+          text: 'вы правы',
+          reaction: 1,
+          parentId: 4,
+          createdAt: '2023-06-03T12:42:22.398Z',
+        },
+        {
+          id: 7,
+          author: 'Olya',
+          text: 'вы правы',
+          reaction: 1,
+          parentId: 1,
+          createdAt: '2023-06-03T12:42:22.398Z',
+        },
       ],
       toastsContent: { status: 'OK', message: 'osdogsdg' },
       toastsVisible: false,
@@ -201,12 +201,12 @@ export default {
     dialogVisible: 'parrentIdcheck',
     switchChecked: 'serverSentEvent',
   },
-  components: { CommentList, CommentForm, Toasts},
+  components: {CommentForm, Toasts, RecursiveComments },
   beforeMount() {
-    this.fetchComments();
+    // this.fetchComments();
   },
   mounted() {
-    this.openConnection();
+    // this.openConnection();
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <input
-    :type="inputType"
+    :name="inputName"
     :value="modelValue"
     @input="updateInput"
     class="input"
