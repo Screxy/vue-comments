@@ -1,21 +1,31 @@
 <template>
   <ul class="section" v-if="comments.length > 0">
-    <CommentItem
+    <!-- <CommentItem
       @showDialog="changeParentCommentId"
       v-for="comment in reactionAndChildSum"
       :comment="comment"
       key="comment.id"
       class="section__item"
+    /> -->
+    <RecursiveComment
+      @showDialog="changeParentCommentId"
+      v-for="comment in nestedComments"
+      :comment="comment"
+      :childs="comment.childs"
+      key="comment.id"
+      class="section__item"
+      st
     />
   </ul>
   <p class="section-text" v-else>Комментариев не найдено</p>
 </template>
 
 <script>
-import CommentItem from './CommentItem.vue';
+// import CommentItem from './CommentItem.vue';
+import RecursiveComment from '@/Components/RecursiveComment.vue';
 
 export default {
-  components: { CommentItem },
+  components: { RecursiveComment },
   props: {
     comments: {
       type: Array,
@@ -23,66 +33,32 @@ export default {
     },
   },
   computed: {
-    sortNestedComments(){
-      let nestedComments = []
+    nestedComments() {
+      let nestedComments = [];
       this.comments.forEach((comment) => {
         if (comment.parentId === null || !comment.parentId) {
           let commentChanged = { ...comment };
-          commentChanged.nest = 0;
-          commentChanged.reactionSum = 0;
-          commentChanged.childs = this.findChilds(commentChanged.id, this.comments);
-          nestedComments.push(commentChanged)
-        }
-      })
-      return nestedComments
-    },
-    sortByNesting() {
-      let sortedComments = [];
-      this.comments.forEach((comment) => {
-        if (comment.parentId === null || !comment.parentId) {
-          let commentChanged = { ...comment };
-          commentChanged.nest = 0;
-          commentChanged.reactionSum = 0;
-          commentChanged.childs = 0;
-          sortedComments.push(commentChanged);
-          this.haveChild(comment, 1, this.comments, sortedComments);
+          commentChanged.childs = this.findChilds(
+            commentChanged,
+            this.comments
+          );
+          nestedComments.push(commentChanged);
         }
       });
-      return sortedComments;
-    },
-    reactionAndChildSum() {
-      let arr = this.sortByNesting;
-      for (let i = 0; i < arr.length; i++) {
-        for (let j = i + 1; j < arr.length; j++) {
-          const parrent = arr[i];
-          const child = arr[j];
-          if (parrent.id === child.parentId) {
-            parrent.childs++;
-            parrent.reactionSum += child.reaction;
-          }
-        }
-      }
-      return arr;
+      return nestedComments;
     },
   },
   methods: {
-    findChilds(id,arr){
-      return arr.filter(comment => comment.parentId === id)
-    },
-    haveChild(parent, nest, arr1, arr2) {
-      if (arr1.length === arr2.length) return;
-      arr1.forEach((originalElement) => {
-        let element = { ...originalElement };
-        if (parent.id === element.parentId) {
-          element.nest = nest;
-          element.reactionSum = 0;
-          element.childs = 0;
-          arr2.push(element);
-          this.haveChild(element, nest + 1, arr1, arr2);
-        }
+    findChilds(parent, arr) {
+      let childs = arr.filter((comment) => comment.parentId === parent.id);
+      if (childs.length === 0) return null;
+      childs.forEach((childComment) => {
+        childComment.childs = this.findChilds(childComment, this.comments);
       });
+      return childs;
     },
     changeParentCommentId(parentCommentId) {
+      console.log(parentCommentId);
       this.$emit('reply', parentCommentId);
     },
   },
@@ -91,8 +67,8 @@ export default {
 
 <style scoped lang="scss">
 @use '@/assets/scss/mixin' as *;
-.section__item {
-  margin-top: 15px;
+.section {
+  padding: 1rem;
 }
 .section-text {
   @include subTitle();

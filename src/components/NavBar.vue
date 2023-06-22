@@ -103,14 +103,14 @@ export default {
   border: none;
   background-color: transparent;
 }
-.navigation__burger {
-}
-.navigation__burger-line1 {
-}
-.navigation__burger-line2 {
-}
-.navigation__burger-line3 {
-}
+// .navigation__burger {
+// }
+// .navigation__burger-line1 {
+// }
+// .navigation__burger-line2 {
+// }
+// .navigation__burger-line3 {
+// }
 .navigation {
   position: relative;
 }
