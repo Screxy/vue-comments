@@ -1,8 +1,6 @@
 <template>
   <Header />
-  <div>
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
@@ -11,8 +9,6 @@ export default { components: { Header } };
 </script>
 
 <style lang="scss">
-
-
 html,
 body,
 body div,
@@ -340,5 +336,4 @@ body {
   clip: rect(0 0 0 0);
   overflow: hidden;
 }
-
 </style>

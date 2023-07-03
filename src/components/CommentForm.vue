@@ -1,9 +1,13 @@
 <template>
   <form method="post" class="form" @submit.prevent="createComment">
     <label class="form__label">
-      <span class="form__span" v-if="!authorLength"><p class="form__text" >Введите ваше имя</p></span>
-      <span class="form__span" v-else><p class="form__text" >Имя слишком длинное</p></span>
-      <my-input
+      <span class="form__span" v-if="!authorLength"
+        ><p class="form__text">Введите ваше имя</p></span
+      >
+      <span class="form__span" v-else
+        ><p class="form__text">Имя слишком длинное</p></span
+      >
+      <v-input
         v-model="formData.author"
         class="form__input"
         inputName="author"
@@ -13,14 +17,14 @@
     </label>
     <label class="form__label">
       <span class="visually-hidden">Введите текст комментарий</span>
-      <my-textarea
+      <v-textarea
         v-model="formData.text"
         class="form__input"
         textareaName="text"
         placeholder="Текст комментария"
         rows="7"
         required
-      ></my-textarea>
+      ></v-textarea>
     </label>
     <label class="form__label">
       <span class="visually-hidden">Нравится</span>
@@ -134,9 +138,9 @@
         />
       </svg>
     </label>
-    <my-button class="form__button" :disabled="authorLength">
+    <v-button class="form__button" :disabled="authorLength">
       Отправить
-    </my-button>
+    </v-button>
   </form>
 </template>
 

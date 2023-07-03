@@ -7,23 +7,23 @@
           <span class="comments__text"
             >Новые комментарии в реальном времени</span
           >
-          <my-switch
+          <v-switch
             class="comments__input"
             :checked="switchChecked"
             @check="streamComment"
           />
         </div>
-        <my-button @click="showDialog" class="comments__button">
+        <v-button @click="showDialog" class="comments__button">
           Написать комментарий
-        </my-button>
-        <my-dialog v-model:show="dialogVisible">
+        </v-button>
+        <v-dialog v-model:show="dialogVisible">
           <CommentForm
             @create="postComments"
             :parentCommentId="parentCommentId"
             :visible="dialogVisible"
             class="comment__form"
           />
-        </my-dialog>
+        </v-dialog>
         <h2 class="comments__subtitle">
           Список комментариев ({{ comments.length }})
         </h2>
@@ -201,7 +201,7 @@ export default {
     dialogVisible: 'parrentIdcheck',
     switchChecked: 'serverSentEvent',
   },
-  components: { CommentList, CommentForm, Toasts},
+  components: { CommentList, CommentForm, Toasts },
   beforeMount() {
     this.fetchComments();
   },

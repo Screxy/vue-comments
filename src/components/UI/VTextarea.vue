@@ -1,21 +1,21 @@
 <template>
-  <input
-    :name="inputName"
+  <textarea
+    name="textareaName"
+    class="textarea"
     :value="modelValue"
-    @input="updateInput"
-    class="input"
-  />
+    @input="updateTextarea"
+  ></textarea>
 </template>
 
 <script>
 export default {
-  name: 'my-input',
+  name: 'v-textarea',
   props: {
-    inputName: String,
+    textareaName: String,
     modelValue: String,
   },
   methods: {
-    updateInput(event) {
+    updateTextarea(event) {
       this.$emit('update:modelValue', event.target.value);
     },
   },
@@ -26,8 +26,9 @@ export default {
 @use '@/assets/scss/function' as *;
 @use '@/assets/scss/variables' as *;
 @use '@/assets/scss/mixin' as *;
-.input {
+.textarea {
   font-size: 1.2rem;
+  resize: none;
   width: 100%;
   border: 2px solid color(primaryTitleColor);
   padding: 10px 15px;

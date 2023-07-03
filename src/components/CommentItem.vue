@@ -13,7 +13,7 @@
       {{ comment.text }}
     </p>
     <div class="item__bottom">
-      <my-button class="item__button" @click="showDialog"> Ответить</my-button>
+      <v-button class="item__button" @click="showDialog"> Ответить</v-button>
       <span class="item__replies" v-if="comment.childs"
         ><svg
           class="item__svg"

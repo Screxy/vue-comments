@@ -1,6 +1,6 @@
 <template>
-  <div class="dialog" v-if="show" @click="hideDialog" @keyup.esc="asdasdas">
-    <div @click.stop class="dialog__content">
+  <div class="dialog" v-if="show" @mousedown="hideDialog">
+    <div @mousedown.stop class="dialog__content">
       <slot></slot>
     </div>
   </div>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'my-dialog',
+  name: 'v-dialog',
   props: {
     show: {
       type: Boolean,
@@ -30,6 +30,7 @@ export default {
   right: 0;
   left: 0;
   position: fixed;
+  z-index: 1;
   display: flex;
   background-color: rgba(0, 0, 0, 0.5);
 }

@@ -5,32 +5,32 @@
         <h1 class="comments__title">Рекурсивные комментарии</h1>
         <div class="comments__switch">
           <span class="comments__text"
-          >Новые комментарии в реальном времени</span
+            >Новые комментарии в реальном времени</span
           >
-          <my-switch
-          class="comments__input"
-          :checked="switchChecked"
-          @check="streamComment"
+          <v-switch
+            class="comments__input"
+            :checked="switchChecked"
+            @check="streamComment"
           />
         </div>
-        <my-button @click="showDialog" class="comments__button">
+        <v-button @click="showDialog" class="comments__button">
           Написать комментарий
-        </my-button>
-        <my-dialog v-model:show="dialogVisible">
+        </v-button>
+        <v-dialog v-model:show="dialogVisible">
           <CommentForm
-          @create="postComments"
-          :parentCommentId="parentCommentId"
-          :visible="dialogVisible"
-          class="comment__form"
+            @create="postComments"
+            :parentCommentId="parentCommentId"
+            :visible="dialogVisible"
+            class="comment__form"
           />
-        </my-dialog>
+        </v-dialog>
         <h2 class="comments__subtitle">
           Список комментариев ({{ comments.length }})
         </h2>
         <RecursiveComments
-        :comments="comments"
-        class="comments__section"
-        @reply="showReplyDialog"
+          :comments="comments"
+          class="comments__section"
+          @reply="showReplyDialog"
         />
       </div>
     </section>
@@ -209,7 +209,7 @@ export default {
     dialogVisible: 'parrentIdcheck',
     switchChecked: 'serverSentEvent',
   },
-  components: {CommentForm, Toasts, RecursiveComments },
+  components: { CommentForm, Toasts, RecursiveComments },
   beforeMount() {
     this.fetchComments();
   },

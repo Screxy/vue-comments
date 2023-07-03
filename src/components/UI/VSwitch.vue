@@ -1,5 +1,5 @@
 <template>
-  <label>
+  <label class="switch">
     <span class="visually-hidden">Переключатель</span>
     <input
       type="checkbox"
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'my-arrow-switch',
+  name: 'v-switch',
   props: {
     checked: Boolean,
   },
@@ -48,14 +48,11 @@ export default {
   content: '';
   height: 26px;
   width: 26px;
-  border-left: 6px solid white;
-  border-bottom: 6px solid white;
   left: 4px;
   bottom: 4px;
-  background-color: transparent;
+  background-color: white;
   transition: 0.4s;
-  transform: rotate(-45deg);
-
+  border-radius: 50%;
 }
 
 input:checked + .switch {
@@ -67,6 +64,6 @@ input:focus + .switch {
 }
 
 input:checked + .switch:before {
-  transform: rotate(135deg);
+  transform: translateX(26px);
 }
 </style>

@@ -124,6 +124,7 @@ export default {
   z-index: 1;
   background-color: #ffffff62;
   backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
   @include media(min, xl) {
     display: flex;
     position: static;

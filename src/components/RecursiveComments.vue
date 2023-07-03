@@ -1,27 +1,20 @@
 <template>
   <ul class="section" v-if="comments.length > 0">
-    <!-- <CommentItem
-      @showDialog="changeParentCommentId"
-      v-for="comment in reactionAndChildSum"
-      :comment="comment"
-      key="comment.id"
-      class="section__item"
-    /> -->
     <RecursiveComment
       @showDialog="changeParentCommentId"
       v-for="comment in nestedComments"
       :comment="comment"
       :childs="comment.childs"
+      :nest="comment.nest"
       key="comment.id"
       class="section__item"
-      st
+      
     />
   </ul>
   <p class="section-text" v-else>Комментариев не найдено</p>
 </template>
 
 <script>
-// import CommentItem from './CommentItem.vue';
 import RecursiveComment from '@/Components/RecursiveComment.vue';
 
 export default {
@@ -38,9 +31,10 @@ export default {
       this.comments.forEach((comment) => {
         if (comment.parentId === null || !comment.parentId) {
           let commentChanged = { ...comment };
+          commentChanged.nest = 0
           commentChanged.childs = this.findChilds(
             commentChanged,
-            this.comments
+            this.comments, 1
           );
           nestedComments.push(commentChanged);
         }
@@ -49,11 +43,12 @@ export default {
     },
   },
   methods: {
-    findChilds(parent, arr) {
+    findChilds(parent, arr, nest) {
       let childs = arr.filter((comment) => comment.parentId === parent.id);
       if (childs.length === 0) return null;
       childs.forEach((childComment) => {
-        childComment.childs = this.findChilds(childComment, this.comments);
+        childComment.childs = this.findChilds(childComment, this.comments, nest + 1);
+        childComment.nest = nest
       });
       return childs;
     },

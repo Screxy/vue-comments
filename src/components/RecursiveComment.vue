@@ -1,5 +1,5 @@
 <template>
-  <li class="item" style="--nested: true">
+  <li class="item">
     <div class="item__comment" :class="colorReaction">
       <p class="item__author">
         {{ comment.author }}
@@ -8,9 +8,7 @@
         {{ comment.text }}
       </p>
       <div class="item__bottom">
-        <my-button class="item__button" @click="showDialog" >
-          Ответить</my-button
-        >
+        <v-button class="item__button" @click="showDialog"> Ответить</v-button>
         <span class="item__replies" v-if="childs"
           ><svg
             class="item__svg"
@@ -61,19 +59,21 @@
         <time class="item__date">
           {{ convertDate }}
         </time>
-        <!-- <my-arrow-switch :checked='repliesShow' v-if="childs" @check="updateCheck"/>  -->
+        <!-- <v-arrow-switch :checked='repliesShow' v-if="childs" @check="updateCheck"/>  -->
       </div>
-    </div>  
-    <ul v-if="childs && repliesShow" class="item__childs">
+    </div>
+    <ul
+      v-if="childs && repliesShow"
+      class="item__childs"
+      :class="{ 'item__childs_no-margin': nest > 4 }"
+    >
       <RecursiveComment
         @showDialog="showChildDialog"
         v-for="child in childs"
         :comment="child"
         :childs="child.childs"
+        :nest="child.nest"
         key="child.id"
-        :style="{
-          'margin-left': 10 + 'px',
-        }"
       />
     </ul>
   </li>
@@ -88,6 +88,10 @@ export default {
     },
     childs: {
       typeof: Array,
+    },
+    nest: {
+      typeof: Number,
+      required: true,
     },
   },
   data() {
@@ -121,8 +125,8 @@ export default {
     },
   },
   methods: {
-    updateCheck(){
-      this.repliesShow = !this.repliesShow
+    updateCheck() {
+      this.repliesShow = !this.repliesShow;
     },
     showChildDialog(id) {
       this.$emit('showDialog', id);
@@ -139,7 +143,23 @@ export default {
 @use '@/assets/scss/function' as *;
 @use '@/assets/scss/variables' as *;
 .item__childs {
-  border-left: #e4e4e4 0.5rem solid;
+  position: relative;
+  padding-left: 1.5rem;
+  &::before {
+    content: '';
+    position: absolute;
+    width: 0.5rem;
+    height: 100%;
+    background-color: #e4e4e4;
+    border-radius: 5px;
+    left: 0;
+  }
+}
+.item__childs_no-margin {
+  padding-left: 0rem;
+  &::before {
+    display: none;
+  }
 }
 .item__comment {
   padding: 1rem;
@@ -201,7 +221,7 @@ export default {
 }
 .item__date {
   margin-left: auto;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   line-height: 1;
 }
 </style>
