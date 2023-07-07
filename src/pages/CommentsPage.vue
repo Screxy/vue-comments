@@ -21,6 +21,7 @@
             @create="postComments"
             :parentCommentId="parentCommentId"
             :visible="dialogVisible"
+            :sending="isAppSending"
             class="comment__form"
           />
         </v-dialog>
@@ -110,6 +111,7 @@ export default {
       dialogVisible: false,
       evtSource: null,
       switchChecked: true,
+      isAppSending: false,
     };
   },
   methods: {
@@ -141,6 +143,7 @@ export default {
     },
     async postComments(comment) {
       try {
+        this.isAppSending = true;
         let url = 'http://194.67.93.117:80/comments';
         let commentbody = {
           author: comment.author,
@@ -166,6 +169,7 @@ export default {
         this.toastsContent = { status: 'Error', message: error.message };
         this.toastsVisible = true;
       }
+      this.isAppSending = false;
     },
     openConnection() {
       this.evtSource = new EventSource(

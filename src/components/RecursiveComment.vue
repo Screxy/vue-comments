@@ -65,7 +65,7 @@
     <ul
       v-if="childs && repliesShow"
       class="item__childs"
-      :class="{ 'item__childs_no-margin': nest > 4 }"
+      :class="{ 'item__childs_no-padding': nest > 4 }"
     >
       <RecursiveComment
         @showDialog="showChildDialog"
@@ -155,7 +155,7 @@ export default {
     left: 0;
   }
 }
-.item__childs_no-margin {
+.item__childs_no-padding {
   padding-left: 0rem;
   &::before {
     display: none;

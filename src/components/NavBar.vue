@@ -1,10 +1,6 @@
 <template>
   <nav class="navigation">
-    <button
-      class="navigation__button"
-      @click="toogleMenu"
-      v-if="!desktop"
-    >
+    <button class="navigation__button" @click="toogleMenu" v-if="!desktop">
       <svg
         class="navigationbar__burger"
         width="20"
@@ -39,7 +35,11 @@
         />
       </svg>
     </button>
-    <ul class="navigation__list" v-show="burgerVisible || desktop" @click="toogleMenu">
+    <ul
+      class="navigation__list"
+      v-show="burgerVisible || desktop"
+      @click="toogleMenu"
+    >
       <li class="navigation__item">
         <router-link to="/" class="navigation__link">Главная</router-link>
       </li>
@@ -68,24 +68,30 @@ export default {
     return {
       screenWidth: window.innerWidth,
       burgerVisible: false,
-      desktop: false
+      desktop: false,
     };
   },
   methods: {
     handleResize() {
       this.screenWidth > 1200
-        ? (this.desktop = true, this.burgerVisible = true)
-        : (this.desktop = false, this.burgerVisible = false);
+        ? ((this.desktop = true), (this.burgerVisible = true))
+        : ((this.desktop = false), (this.burgerVisible = false));
       this.screenWidth = window.innerWidth;
     },
     toogleMenu() {
       this.burgerVisible = !this.burgerVisible;
     },
+    isDesktop() {
+      this.screenWidth > 1200
+        ? ((this.desktop = true), (this.burgerVisible = true))
+        : ((this.desktop = false), (this.burgerVisible = false));
+    },
+  },
+  watch: {
+    screenWidth: 'isDesktop',
   },
   mounted() {
-    this.screenWidth > 1200
-        ? (this.desktop = true)
-        : (this.desktop = false);
+    this.screenWidth > 1200 ? (this.desktop = true) : (this.desktop = false);
     window.addEventListener('resize', this.handleResize);
   },
 

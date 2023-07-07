@@ -138,7 +138,7 @@
         />
       </svg>
     </label>
-    <v-button class="form__button" :disabled="authorLength">
+    <v-button class="form__button" :disabled="authorLength || sending">
       Отправить
     </v-button>
   </form>
@@ -154,6 +154,9 @@ export default {
     visible: {
       type: Boolean,
     },
+    sending:{
+      type: Boolean,
+    }
   },
   data() {
     return {
