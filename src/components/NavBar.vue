@@ -62,43 +62,35 @@
   </nav>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      screenWidth: window.innerWidth,
-      burgerVisible: false,
-      desktop: false,
-    };
-  },
-  methods: {
-    handleResize() {
-      this.screenWidth > 1200
-        ? ((this.desktop = true), (this.burgerVisible = true))
-        : ((this.desktop = false), (this.burgerVisible = false));
-      this.screenWidth = window.innerWidth;
-    },
-    toogleMenu() {
-      this.burgerVisible = !this.burgerVisible;
-    },
-    isDesktop() {
-      this.screenWidth > 1200
-        ? ((this.desktop = true), (this.burgerVisible = true))
-        : ((this.desktop = false), (this.burgerVisible = false));
-    },
-  },
-  watch: {
-    screenWidth: 'isDesktop',
-  },
-  mounted() {
-    this.screenWidth > 1200 ? (this.desktop = true) : (this.desktop = false);
-    window.addEventListener('resize', this.handleResize);
-  },
+<script setup>
+import { ref, watch, onMounted, onUnmounted } from 'vue'
+const screenWidth = ref(window.innerWidth)
+const burgerVisible = ref(false)
+const desktop = ref(false)
+function handleResize() {
+  screenWidth.value > 768
+    ? ((desktop.value = true), (burgerVisible.value = true))
+    : ((desktop.value = false), (burgerVisible.value = false))
+  screenWidth.value = window.innerWidth
+}
+function toogleMenu() {
+  burgerVisible.value = !burgerVisible.value
+}
+function isDesktop() {
+  screenWidth.value > 768
+    ? ((desktop.value = true), (burgerVisible.value = true))
+    : ((desktop.value = false), (burgerVisible.value = false))
+}
 
-  destroyed() {
-    window.removeEventListener('resize', this.handleResize);
-  },
-};
+watch(screenWidth, isDesktop)
+onMounted(() => {
+  screenWidth.value > 768 ? (desktop.value = true) : (desktop.value = false)
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
 </script>
 
 <style lang="scss" scoped>
@@ -131,7 +123,7 @@ export default {
   background-color: #ffffff62;
   backdrop-filter: blur(1rem);
   -webkit-backdrop-filter: blur(1rem);
-  @include media(min, xl) {
+  @include media(min, md) {
     display: flex;
     position: static;
     margin-top: 0;
@@ -146,7 +138,7 @@ export default {
   @include subTitle();
   text-decoration: none;
   transition: all 0.3s;
-  @include media(min, xl) {
+  @include media(min, md) {
     &:hover {
       color: color(primaryTitleColor);
     }

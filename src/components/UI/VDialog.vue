@@ -1,26 +1,22 @@
 <template>
-  <div class="dialog" v-if="show" @mousedown="hideDialog">
+  <div class="dialog" v-if="show" @mousedown="$emit('update:show', false)">
     <div @mousedown.stop class="dialog__content">
       <slot></slot>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'v-dialog',
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
+<script setup>
+defineOptions({
+  name: 'VDialog',
+})
+defineEmits(['update:show'])
+const props = defineProps({
+  show: {
+    type: Boolean,
+    default: false,
   },
-  methods: {
-    hideDialog() {
-      this.$emit('update:show', false);
-    },
-  },
-};
+})
 </script>
 
 <style scoped>

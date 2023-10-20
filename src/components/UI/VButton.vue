@@ -4,10 +4,10 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: 'v-button',
-};
+<script setup>
+defineOptions({
+  name: 'VButton',
+})
 </script>
 
 <style scoped lang="scss">

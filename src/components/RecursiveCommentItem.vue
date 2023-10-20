@@ -8,7 +8,7 @@
         {{ comment.text }}
       </p>
       <div class="item__bottom">
-        <v-button class="item__button" @click="showDialog"> Ответить</v-button>
+        <VButton class="item__button" @click="showDialog"> Ответить</VButton>
         <span class="item__replies" v-if="childs"
           ><svg
             class="item__svg"
@@ -67,7 +67,7 @@
       class="item__childs"
       :class="{ 'item__childs_no-padding': nest > 4 }"
     >
-      <RecursiveComment
+      <RecursiveCommentItem
         @showDialog="showChildDialog"
         v-for="child in childs"
         :comment="child"
@@ -98,21 +98,21 @@ export default {
     return {
       repliesShow: true,
       date: this.comment.createdAt,
-    };
+    }
   },
   computed: {
     colorReaction() {
-      if (!this.childs) return;
-      let sum = 0;
+      if (!this.childs) return
+      let sum = 0
       this.childs.forEach((comment) => {
-        sum += comment.reaction;
-      });
+        sum += comment.reaction
+      })
       if (sum > 0) {
-        return 'item_green';
+        return 'item_green'
       } else if (sum < 0) {
-        return 'item_red';
+        return 'item_red'
       }
-      return;
+      return
     },
     convertDate() {
       return new Intl.DateTimeFormat('ru', {
@@ -121,21 +121,21 @@ export default {
         day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
-      }).format(Date.parse(this.date));
+      }).format(Date.parse(this.date))
     },
   },
   methods: {
     updateCheck() {
-      this.repliesShow = !this.repliesShow;
+      this.repliesShow = !this.repliesShow
     },
     showChildDialog(id) {
-      this.$emit('showDialog', id);
+      this.$emit('showDialog', id)
     },
     showDialog() {
-      this.$emit('showDialog', this.comment.id);
+      this.$emit('showDialog', this.comment.id)
     },
   },
-};
+}
 </script>
 
 <style scoped lang="scss">

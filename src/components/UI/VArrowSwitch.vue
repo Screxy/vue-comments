@@ -4,25 +4,22 @@
     <input
       type="checkbox"
       :checked="checked"
-      @input="updateCheck"
+      @input="$emit('check')"
       class="visually-hidden"
     />
     <span class="switch"></span>
   </label>
 </template>
 
-<script>
-export default {
-  name: 'v-arrow-switch',
-  props: {
-    checked: Boolean,
-  },
-  methods: {
-    updateCheck() {
-      this.$emit('check');
-    },
-  },
-};
+<script setup>
+defineOptions({
+  name: 'VArrowSwitch',
+})
+defineEmits(['check'])
+defineProps({
+  checked: Boolean,
+})
+
 </script>
 
 <style scoped lang="scss">

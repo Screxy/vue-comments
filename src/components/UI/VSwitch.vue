@@ -1,28 +1,28 @@
 <template>
   <label class="switch">
     <span class="visually-hidden">Переключатель</span>
-    <input
-      type="checkbox"
-      :checked="checked"
-      @input="updateCheck"
-      class="visually-hidden"
-    />
+    <input type="checkbox" v-model="value" class="visually-hidden" />
     <span class="switch"></span>
   </label>
 </template>
 
-<script>
-export default {
-  name: 'v-switch',
-  props: {
-    checked: Boolean,
+<script setup>
+import { computed } from 'vue'
+defineOptions({
+  name: 'VSwitch',
+})
+const emit = defineEmits(['update:modelValue'])
+const props = defineProps({
+  modelValue: Boolean,
+})
+const value = computed({
+  get() {
+    return props.modelValue
   },
-  methods: {
-    updateCheck() {
-      this.$emit('check');
-    },
+  set(value) {
+    emit('update:modelValue', value)
   },
-};
+})
 </script>
 
 <style scoped lang="scss">

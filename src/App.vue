@@ -1,11 +1,9 @@
 <template>
-  <Header />
-  <router-view></router-view>
+  <TheHeader />
+  <RouterView></RouterView>
 </template>
-
-<script>
-import Header from '@/components/Header.vue';
-export default { components: { Header } };
+<script setup>
+import TheHeader from '@/components/TheHeader.vue'
 </script>
 
 <style lang="scss">

@@ -6,37 +6,32 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    content: Object,
-    show: {
-      type: Boolean,
-      default: false,
-    },
+<script setup>
+import { computed, watch } from 'vue'
+const emit = defineEmits(['update:show'])
+const props = defineProps({
+  content: Object,
+  show: {
+    type: Boolean,
+    default: false,
   },
-  computed: {
-    contentStatus() {
-      if (this.content.status === 'Error') {
-        return false;
-      }
-      return true;
-    },
-  },
-  methods: {
-    deferredClose() {
-      setTimeout(() => {
-        this.hideToasts();
-      }, 3000);
-    },
-    hideToasts() {
-      this.$emit('update:show', false);
-    },
-  },
-  watch: {
-    show: 'deferredClose',
-  },
-};
+})
+const show = computed(() => props.show)
+const contentStatus = computed(() => {
+  if (props.content.status === 'Error') {
+    return false
+  }
+  return true
+})
+function deferredClose() {
+  setTimeout(() => {
+    hideToasts()
+  }, 3000)
+}
+function hideToasts() {
+  emit('update:show', false)
+}
+watch(show, deferredClose)
 </script>
 
 <style lang="scss" scoped>

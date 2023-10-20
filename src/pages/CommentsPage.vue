@@ -7,26 +7,25 @@
           <span class="comments__text"
             >Новые комментарии в реальном времени</span
           >
-          <v-switch
+          <VSwitch
             class="comments__input"
-            :checked="switchChecked"
-            @check="streamComment"
+            v-model="switchChecked"
           />
         </div>
-        <v-button @click="showDialog" class="comments__button">
+        <VButton @click="showDialog" class="comments__button">
           Написать комментарий
-        </v-button>
-        <v-dialog v-model:show="dialogVisible">
+        </VButton>
+        <VDialog v-model:show="dialogVisible">
           <CommentForm
             @create="postComments"
             :parentCommentId="parentCommentId"
             :visible="dialogVisible"
             :sending="isAppSending"
-            class="comment__form"
+            class="comments__form"
           />
-        </v-dialog>
+        </VDialog>
         <h2 class="comments__subtitle">
-          Список комментариев ({{ comments.length }})
+          Список комментариев ({{ commentsLenght }})
         </h2>
         <CommentList
           :comments="comments"
@@ -38,181 +37,97 @@
     <Toasts v-model:show="toastsVisible" :content="toastsContent" />
   </main>
 </template>
-<script>
-import CommentList from '@/components/CommentList.vue';
-import CommentForm from '@/components/CommentForm.vue';
-import Toasts from '@/components/Toasts.vue';
-import axios from 'axios';
+<script setup>
+import CommentList from '@/components/CommentList.vue'
+import CommentForm from '@/components/CommentForm.vue'
+import Toasts from '@/components/Toasts.vue'
+import axios from 'axios'
+import { ref, computed, watch, onMounted } from 'vue'
+const parentCommentId = ref(null)
+const comments = ref([])
+const toastsContent = ref({ status: '', message: '' })
+const toastsVisible = ref(false)
+const dialogVisible = ref(false)
+const evtSource = ref(null)
+const switchChecked = ref(true)
+const isAppSending = ref(false)
+function addComment(comment) {
+  comments.value.push(JSON.parse(comment.data))
+}
+function showReplyDialog(parentId) {
+  parentCommentId.value = parentId
+  dialogVisible.value = true
+}
+function showDialog() {
+  dialogVisible.value = true
+}
+async function fetchComments() {
+  try {
+    const response = await axios.get('http://194.67.93.117:80/comments')
+    comments.value.length = 0
+    comments.value.push(...response.data.reverse())
+  } catch (error) {
+    console.log(error)
+  }
+}
+async function postComments(comment) {
+  try {
+    isAppSending.value = true
+    let url = 'http://194.67.93.117:80/comments'
+    let commentbody = {
+      author: comment.author,
+      text: comment.text,
+      reaction: comment.reaction,
+      parentId: comment.parentId,
+    }
 
-export default {
-  data() {
-    return {
-      parentCommentId: null,
-      comments: [
-        // {
-        //   id: 1,
-        //   author: 'Screxy',
-        //   text: 'Пост пушка! Рад, что нашел тебя!',
-        //   reaction: 1,
-        //   parentId: null,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-        // {
-        //   id: 2,
-        //   author: 'Nikolya',
-        //   text: 'Не согласен',
-        //   reaction: -1,
-        //   parentId: 1,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-        // {
-        //   id: 3,
-        //   author: 'Petya',
-        //   text: 'Пост объективно не очень',
-        //   reaction: -1,
-        //   parentId: 1,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-        // {
-        //   id: 4,
-        //   author: 'Slavaver',
-        //   text: 'Пост средний, надо переделать',
-        //   reaction: 0,
-        //   parentId: null,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-        // {
-        //   id: 5,
-        //   author: 'Misha',
-        //   text: 'согласен',
-        //   reaction: 1,
-        //   parentId: 4,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-        // {
-        //   id: 6,
-        //   author: 'Olya',
-        //   text: 'вы правы',
-        //   reaction: 1,
-        //   parentId: 4,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-        // {
-        //   id: 7,
-        //   author: 'Olya',
-        //   text: 'вы правы',
-        //   reaction: 1,
-        //   parentId: 1,
-        //   createdAt: '2023-06-03T12:42:22.398Z',
-        // },
-      ],
-      toastsContent: { status: 'OK', message: 'osdogsdg' },
-      toastsVisible: false,
-      dialogVisible: false,
-      evtSource: null,
-      switchChecked: true,
-      isAppSending: false,
-    };
-  },
-  methods: {
-    streamComment() {
-      if (this.switchChecked === false) {
-        this.switchChecked = true;
-        return;
-      }
-      this.switchChecked = false;
-    },
-    addComment(comment) {
-      this.comments.push(JSON.parse(comment.data));
-    },
-    showReplyDialog(parentCommentId) {
-      this.parentCommentId = parentCommentId;
-      this.dialogVisible = true;
-    },
-    showDialog() {
-      this.dialogVisible = true;
-    },
-    async fetchComments() {
-      try {
-        const response = await axios.get('http://194.67.93.117:80/comments');
-        this.comments.length = 0;
-        this.comments.push(...response.data.reverse());
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async postComments(comment) {
-      try {
-        this.isAppSending = true;
-        let url = 'http://194.67.93.117:80/comments';
-        let commentbody = {
-          author: comment.author,
-          text: comment.text,
-          reaction: comment.reaction,
-          parentId: comment.parentId,
-        };
+    const response = await axios.post(url, commentbody, {
+      headers: {
+        'Content-Type': 'application/json',
+        Username: 'Screxy',
+      },
+    })
 
-        const response = await axios.post(url, commentbody, {
-          headers: {
-            'Content-Type': 'application/json',
-            Username: 'Screxy',
-          },
-        });
+    console.log(response.data)
+    toastsContent.value = response.data
+    toastsVisible.value = true
+    dialogVisible.value = false
+    parentCommentId.value = null
+  } catch (error) {
+    console.log(error.message)
+    toastsContent.value = { status: 'Error', message: error.message }
+    toastsVisible.value = true
+  }
+  isAppSending.value = false
+}
+function openConnection() {
+  evtSource.value = new EventSource('http://194.67.93.117:80/comments/stream')
+  evtSource.value.onmessage = addComment
+}
+function closeConnection() {
+  if (evtSource.value) {
+    evtSource.value.close()
+    evtSource.value = null
+  }
+}
+function serverSentEvent() {
+  if (!switchChecked.value) {
+    closeConnection()
+  } else {
+    openConnection()
+  }
+}
+function parrentIdcheck() {
+  if (dialogVisible.value === false) {
+    parentCommentId.value = null
+  }
+}
 
-        console.log(response.data);
-        this.toastsContent = response.data;
-        this.toastsVisible = true;
-        this.dialogVisible = false;
-        this.parentCommentId = null;
-      } catch (error) {
-        console.log(error.message);
-        this.toastsContent = { status: 'Error', message: error.message };
-        this.toastsVisible = true;
-      }
-      this.isAppSending = false;
-    },
-    openConnection() {
-      this.evtSource = new EventSource(
-        'http://194.67.93.117:80/comments/stream'
-      );
-      this.evtSource.onmessage = this.addComment;
-    },
-    closeConnection() {
-      if (this.evtSource) {
-        this.evtSource.close();
-        this.evtSource = null;
-      }
-    },
-    serverSentEvent() {
-      if (!this.switchChecked) {
-        this.closeConnection();
-      } else {
-        this.openConnection();
-      }
-    },
-    parrentIdcheck() {
-      if (this.dialogVisible === false) {
-        this.parentCommentId = null;
-      }
-    },
-  },
-  computed: {
-    commentsLenght() {
-      return this.comments.length;
-    },
-  },
-  watch: {
-    dialogVisible: 'parrentIdcheck',
-    switchChecked: 'serverSentEvent',
-  },
-  components: { CommentList, CommentForm, Toasts },
-  beforeMount() {
-    this.fetchComments();
-  },
-  mounted() {
-    this.openConnection();
-  },
-};
+const commentsLenght = computed(() => comments.value.length)
+watch(dialogVisible, parrentIdcheck)
+watch(switchChecked, serverSentEvent)
+fetchComments()
+onMounted(() => openConnection())
 </script>
 <style lang="scss">
 @use '@/assets/scss/mixin' as *;

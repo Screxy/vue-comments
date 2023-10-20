@@ -13,7 +13,7 @@
       {{ comment.text }}
     </p>
     <div class="item__bottom">
-      <v-button class="item__button" @click="showDialog"> Ответить</v-button>
+      <VButton class="item__button" @click="showDialog"> Ответить</VButton>
       <span class="item__replies" v-if="comment.childs"
         ><svg
           class="item__svg"
@@ -79,19 +79,19 @@ export default {
   data() {
     return {
       date: this.comment.createdAt,
-    };
+    }
   },
   computed: {
     nestMargin() {
-      return Math.min(15 * this.comment.nest, 15 * 5);
+      return Math.min(15 * this.comment.nest, 15 * 5)
     },
     colorReaction() {
       if (this.comment.reactionSum > 0) {
-        return 'item_green';
+        return 'item_green'
       } else if (this.comment.reactionSum < 0) {
-        return 'item_red';
+        return 'item_red'
       }
-      return;
+      return
     },
     convertDate() {
       return new Intl.DateTimeFormat('ru', {
@@ -100,15 +100,15 @@ export default {
         day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
-      }).format(Date.parse(this.date));
+      }).format(Date.parse(this.date))
     },
   },
   methods: {
     showDialog() {
-      this.$emit('showDialog', this.comment.id);
+      this.$emit('showDialog', this.comment.id)
     },
   },
-};
+}
 </script>
 
 <style scoped lang="scss">

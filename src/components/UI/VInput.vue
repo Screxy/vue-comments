@@ -1,25 +1,29 @@
 <template>
   <input
     :name="inputName"
-    :value="modelValue"
-    @input="updateInput"
+    v-model="value"
     class="input"
   />
 </template>
 
-<script>
-export default {
-  name: 'v-input',
-  props: {
-    inputName: String,
-    modelValue: String,
+<script setup>
+import {computed} from 'vue'
+defineOptions({
+  name: 'VInput',
+})
+const emit = defineEmits(['update:modelValue'])
+const props = defineProps({
+  inputName: String,
+  modelValue: String,
+})
+const value = computed({
+  get() {
+    return props.modelValue
   },
-  methods: {
-    updateInput(event) {
-      this.$emit('update:modelValue', event.target.value);
-    },
-  },
-};
+  set(value) {
+    emit('update:modelValue', value)
+  }
+})
 </script>
 
 <style scoped lang="scss">

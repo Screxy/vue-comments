@@ -7,7 +7,7 @@
       <span class="form__span" v-else
         ><p class="form__text">Имя слишком длинное</p></span
       >
-      <v-input
+      <VInput
         v-model="formData.author"
         class="form__input"
         inputName="author"
@@ -17,14 +17,14 @@
     </label>
     <label class="form__label">
       <span class="visually-hidden">Введите текст комментарий</span>
-      <v-textarea
+      <VTextarea
         v-model="formData.text"
         class="form__input"
         textareaName="text"
         placeholder="Текст комментария"
         rows="7"
         required
-      ></v-textarea>
+      ></VTextarea>
     </label>
     <label class="form__label">
       <span class="visually-hidden">Нравится</span>
@@ -138,9 +138,9 @@
         />
       </svg>
     </label>
-    <v-button class="form__button" :disabled="authorLength || sending">
+    <VButton class="form__button" :disabled="authorLength || sending">
       Отправить
-    </v-button>
+    </VButton>
   </form>
 </template>
 
@@ -154,9 +154,9 @@ export default {
     visible: {
       type: Boolean,
     },
-    sending:{
+    sending: {
       type: Boolean,
-    }
+    },
   },
   data() {
     return {
@@ -166,7 +166,7 @@ export default {
         reaction: 0,
         parentId: null,
       },
-    };
+    }
   },
   computed: {
     resetForm() {
@@ -176,13 +176,13 @@ export default {
           text: '',
           reaction: 0,
           parentId: null,
-        };
+        }
       }
     },
   },
   computed: {
     authorLength() {
-      return 40 < this.formData.author.length;
+      return 40 < this.formData.author.length
     },
   },
   methods: {
@@ -192,11 +192,11 @@ export default {
         text: this.formData.text,
         reaction: +this.formData.reaction,
         parentId: this.parentCommentId,
-      };
-      this.$emit('create', this.formData);
+      }
+      this.$emit('create', this.formData)
     },
   },
-};
+}
 </script>
 
 <style scoped lang="scss">

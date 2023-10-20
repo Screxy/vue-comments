@@ -1,23 +1,21 @@
 <template>
-<section class="main"></section>
-  <div class="main__wrapper">
-    <h1 class="main__title">Лабораторная работа №12</h1>
-    
-  </div>
+    <div>
+
+    </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+    setup () {
+        
+
+        return {}
+    }
+})
 </script>
 
-<style lang="scss" scoped>
-@use '@/assets/scss/mixin' as *;
-@use '@/assets/scss/function' as *;
+<style scoped>
 
-.main__wrapper{
-  @include wrapper();
-}
-.main__title{
-  @include title();
-  margin-top: 2rem;
-}
 </style>

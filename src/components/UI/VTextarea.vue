@@ -1,25 +1,25 @@
 <template>
-  <textarea
-    name="textareaName"
-    class="textarea"
-    :value="modelValue"
-    @input="updateTextarea"
-  ></textarea>
+  <textarea name="textareaName" class="textarea" v-model="value"></textarea>
 </template>
 
-<script>
-export default {
-  name: 'v-textarea',
-  props: {
-    textareaName: String,
-    modelValue: String,
+<script setup>
+import { computed } from 'vue'
+defineOptions({
+  name: 'VTextarea',
+})
+const emit = defineEmits(['update:modelValue'])
+const props = defineProps({
+  textareaName: String,
+  modelValue: String,
+})
+const value = computed({
+  get() {
+    return props.modelValue
   },
-  methods: {
-    updateTextarea(event) {
-      this.$emit('update:modelValue', event.target.value);
-    },
+  set(value) {
+    emit('update:modelValue', value)
   },
-};
+})
 </script>
 
 <style scoped lang="scss">

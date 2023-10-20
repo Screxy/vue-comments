@@ -1,6 +1,6 @@
 <template>
   <ul class="section" v-if="comments.length > 0">
-    <RecursiveComment
+    <RecursiveCommentItem
       @showDialog="changeParentCommentId"
       v-for="comment in nestedComments"
       :comment="comment"
@@ -8,17 +8,16 @@
       :nest="comment.nest"
       key="comment.id"
       class="section__item"
-      
     />
   </ul>
   <p class="section-text" v-else>Комментариев не найдено</p>
 </template>
 
 <script>
-import RecursiveComment from '@/Components/RecursiveComment.vue';
+import RecursiveCommentItem from '@/Components/RecursiveCommentItem.vue'
 
 export default {
-  components: { RecursiveComment },
+  components: { RecursiveCommentItem },
   props: {
     comments: {
       type: Array,
@@ -27,37 +26,42 @@ export default {
   },
   computed: {
     nestedComments() {
-      let nestedComments = [];
+      let nestedComments = []
       this.comments.forEach((comment) => {
         if (comment.parentId === null || !comment.parentId) {
-          let commentChanged = { ...comment };
+          let commentChanged = { ...comment }
           commentChanged.nest = 0
           commentChanged.childs = this.findChilds(
             commentChanged,
-            this.comments, 1
-          );
-          nestedComments.push(commentChanged);
+            this.comments,
+            1
+          )
+          nestedComments.push(commentChanged)
         }
-      });
-      return nestedComments;
+      })
+      return nestedComments
     },
   },
   methods: {
     findChilds(parent, arr, nest) {
-      let childs = arr.filter((comment) => comment.parentId === parent.id);
-      if (childs.length === 0) return null;
+      let childs = arr.filter((comment) => comment.parentId === parent.id)
+      if (childs.length === 0) return null
       childs.forEach((childComment) => {
-        childComment.childs = this.findChilds(childComment, this.comments, nest + 1);
+        childComment.childs = this.findChilds(
+          childComment,
+          this.comments,
+          nest + 1
+        )
         childComment.nest = nest
-      });
-      return childs;
+      })
+      return childs
     },
     changeParentCommentId(parentCommentId) {
-      console.log(parentCommentId);
-      this.$emit('reply', parentCommentId);
+      console.log(parentCommentId)
+      this.$emit('reply', parentCommentId)
     },
   },
-};
+}
 </script>
 
 <style scoped lang="scss">
