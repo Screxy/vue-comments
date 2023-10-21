@@ -68,46 +68,39 @@
   </li>
 </template>
 
-<script>
-export default {
-  props: {
-    comment: {
-      typeof: Object,
-      required: true,
-    },
+<script setup>
+import { ref, computed } from 'vue'
+const emit = defineEmits(['showDialog'])
+const props = defineProps({
+  comment: {
+    typeof: Object,
+    required: true,
   },
-  data() {
-    return {
-      date: this.comment.createdAt,
-    }
-  },
-  computed: {
-    nestMargin() {
-      return Math.min(15 * this.comment.nest, 15 * 5)
-    },
-    colorReaction() {
-      if (this.comment.reactionSum > 0) {
-        return 'item_green'
-      } else if (this.comment.reactionSum < 0) {
-        return 'item_red'
-      }
-      return
-    },
-    convertDate() {
-      return new Intl.DateTimeFormat('ru', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-      }).format(Date.parse(this.date))
-    },
-  },
-  methods: {
-    showDialog() {
-      this.$emit('showDialog', this.comment.id)
-    },
-  },
+})
+const date = ref(props.comment.createdAt)
+const nestMargin = computed(() => {
+  return Math.min(15 * props.comment.nest, 15 * 5)
+})
+const colorReaction = computed(() => {
+  if (props.comment.reactionSum > 0) {
+    return 'item_green'
+  } else if (props.comment.reactionSum < 0) {
+    return 'item_red'
+  }
+  return
+})
+const convertDate = computed(() => {
+  return new Intl.DateTimeFormat('ru', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  }).format(Date.parse(date.value))
+})
+
+function showDialog() {
+  emit('showDialog', props.comment.id)
 }
 </script>
 

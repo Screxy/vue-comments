@@ -144,58 +144,46 @@
   </form>
 </template>
 
-<script>
-export default {
-  props: {
-    parentCommentId: {
-      type: Number,
-      defualt: null,
-    },
-    visible: {
-      type: Boolean,
-    },
-    sending: {
-      type: Boolean,
-    },
+<script setup>
+import { ref, computed } from 'vue'
+const emit = defineEmits(['create'])
+const props = defineProps({
+  parentCommentId: {
+    type: Number,
+    defualt: null,
   },
-  data() {
-    return {
-      formData: {
-        author: '',
-        text: '',
-        reaction: 0,
-        parentId: null,
-      },
-    }
+  visible: {
+    type: Boolean,
   },
-  computed: {
-    resetForm() {
-      if (this.visible === false) {
-        this.formData = {
-          author: '',
-          text: '',
-          reaction: 0,
-          parentId: null,
-        }
-      }
-    },
+  sending: {
+    type: Boolean,
   },
-  computed: {
-    authorLength() {
-      return 40 < this.formData.author.length
-    },
-  },
-  methods: {
-    createComment() {
-      this.formData = {
-        author: this.formData.author,
-        text: this.formData.text,
-        reaction: +this.formData.reaction,
-        parentId: this.parentCommentId,
-      }
-      this.$emit('create', this.formData)
-    },
-  },
+})
+
+const formData = ref({
+  author: '',
+  text: '',
+  reaction: 0,
+  parentId: null,
+})
+const authorLength = computed(() => {
+  return 40 < formData.value.author.length
+})
+
+function createComment() {
+  formData.value = {
+    author: formData.value.author,
+    text: formData.value.text,
+    reaction: +formData.value.reaction,
+    parentId: props.parentCommentId,
+  }
+  emit('create', formData.value)
+  formData.value = {
+    author: '',
+    text: '',
+    reaction: 0,
+    parentId: null,
+  }
 }
 </script>
 

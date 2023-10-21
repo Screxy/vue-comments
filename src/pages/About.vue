@@ -6,8 +6,8 @@
   </section>
 </template>
 
-<scrip setup>
-</scrip>
+<script setup>
+</script>
 
 <style lang="scss" scoped>
 @use '@/assets/scss/mixin' as *;

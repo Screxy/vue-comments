@@ -57,13 +57,12 @@
           {{ childs.length }}
         </span>
         <time class="item__date">
-          {{ convertDate }}
+          {{ convertedDate }}
         </time>
-        <!-- <v-arrow-switch :checked='repliesShow' v-if="childs" @check="updateCheck"/>  -->
       </div>
     </div>
     <ul
-      v-if="childs && repliesShow"
+      v-if="childs"
       class="item__childs"
       :class="{ 'item__childs_no-padding': nest > 4 }"
     >
@@ -79,62 +78,50 @@
   </li>
 </template>
 
-<script>
-export default {
-  props: {
-    comment: {
-      typeof: Object,
-      required: true,
-    },
-    childs: {
-      typeof: Array,
-    },
-    nest: {
-      typeof: Number,
-      required: true,
-    },
+<script setup>
+import {ref, computed} from 'vue';
+const emit = defineEmits(['showDialog'])
+const props = defineProps({
+  comment: {
+    typeof: Object,
+    required: true,
   },
-  data() {
-    return {
-      repliesShow: true,
-      date: this.comment.createdAt,
-    }
+  childs: {
+    typeof: Array,
   },
-  computed: {
-    colorReaction() {
-      if (!this.childs) return
-      let sum = 0
-      this.childs.forEach((comment) => {
-        sum += comment.reaction
-      })
-      if (sum > 0) {
-        return 'item_green'
-      } else if (sum < 0) {
-        return 'item_red'
-      }
-      return
-    },
-    convertDate() {
-      return new Intl.DateTimeFormat('ru', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-      }).format(Date.parse(this.date))
-    },
+  nest: {
+    typeof: Number,
+    required: true,
   },
-  methods: {
-    updateCheck() {
-      this.repliesShow = !this.repliesShow
-    },
-    showChildDialog(id) {
-      this.$emit('showDialog', id)
-    },
-    showDialog() {
-      this.$emit('showDialog', this.comment.id)
-    },
-  },
+})
+const date = ref(props.comment.createdAt)
+const colorReaction = computed(() => {
+  if (!props.childs) return
+  let sum = 0
+  props.childs.forEach((comment) => {
+    sum += comment.reaction
+  })
+  if (sum > 0) {
+    return 'item_green'
+  } else if (sum < 0) {
+    return 'item_red'
+  }
+  return
+})
+const convertedDate = computed(() => {
+  return new Intl.DateTimeFormat('ru', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  }).format(Date.parse(date.value))
+})
+function showChildDialog(id) {
+  emit('showDialog', id)
+}
+function showDialog() {
+  emit('showDialog', props.comment.id)
 }
 </script>
 

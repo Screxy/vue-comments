@@ -7,10 +7,7 @@
           <span class="comments__text"
             >Новые комментарии в реальном времени</span
           >
-          <VSwitch
-            class="comments__input"
-            v-model="switchChecked"
-          />
+          <VSwitch class="comments__input" v-model="switchChecked" />
         </div>
         <VButton @click="showDialog" class="comments__button">
           Написать комментарий
@@ -59,6 +56,7 @@ function showReplyDialog(parentId) {
   dialogVisible.value = true
 }
 function showDialog() {
+  parentCommentId.value = null
   dialogVisible.value = true
 }
 async function fetchComments() {
@@ -117,14 +115,7 @@ function serverSentEvent() {
     openConnection()
   }
 }
-function parrentIdcheck() {
-  if (dialogVisible.value === false) {
-    parentCommentId.value = null
-  }
-}
-
 const commentsLenght = computed(() => comments.value.length)
-watch(dialogVisible, parrentIdcheck)
 watch(switchChecked, serverSentEvent)
 fetchComments()
 onMounted(() => openConnection())
